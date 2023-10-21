@@ -1,5 +1,5 @@
 import React, { useState} from 'react'
-import { ProTable } from "@ant-design/pro-table";
+import ProTable from "@ant-design/pro-table";
 import {getRequestData, postRequestData, postDataRequest} from "../../../services/server";
 import EditUser from "./component/EditUser.jsx";
 import {Button} from "antd";
@@ -72,14 +72,24 @@ const User = () => {
             username: 'admin',
 
         }
-        const result = await postDataRequest(`api/user/userList?page=${1}&size=${50}`,).then(res => {
-
-        })
+        const result = await postDataRequest(`api/user/userList?page=${1}&size=${50}`,)
         tableResult = {
             success: true,
             data: result || [],
             total: result.total,
         }
+        const paginationData = {
+            showSizeChanger: true,
+            current: Math.ceil(result?.data / pageSize.pageSize + result?.total / pageSize.pageSize),
+            total: result?.total || 0,
+            size: 'default',
+            showQuickJumper: true,
+            showTotal: (total, range) => (<span>{`共${total}条记录 第${Math.ceil(range[0] / pageSize.pageSize) || 0} 页`}</span>),
+            onShowSizeChange: (current, size) => {
+                setPageSize({ pageSize: size })
+            },
+        }
+        setPagination(paginationData)
         return tableResult
     }
 

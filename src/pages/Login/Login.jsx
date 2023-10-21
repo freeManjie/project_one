@@ -33,25 +33,25 @@ export const Login = () => {
     }
 
     const submitLogin = (values) => {
-        let params = { ...values }
-        axios.post('api/auth/login', params).then(res => {
-            if(res.data.data.access_token) {
-                setToken(
-                    res.data.data.access_token,
-                    res.data.data.username,
-                    res.data.data.token_type
-                )
-                console.log(res, '返回信息')
-                message.success(res.data.message)
-                history.push("/project/backHome")
-            } else {
-                message.error(res.data.message)
-                return
-            }
-        }).catch((err) => {
-            console.log(err, '错误参数')
-        })
-        // history.push("/project/backHome")
+        // let params = { ...values }
+        // axios.post('api/auth/login', params).then(res => {
+        //     if(res.data.data.access_token) {
+        //         setToken(
+        //             res.data.data.access_token,
+        //             res.data.data.username,
+        //             res.data.data.token_type
+        //         )
+        //         console.log(res, '返回信息')
+        //         message.success(res.data.message)
+        //         history.push("/project/backHome")
+        //     } else {
+        //         message.error(res.data.message)
+        //         return
+        //     }
+        // }).catch((err) => {
+        //     console.log(err, '错误参数')
+        // })
+        history.push("/project/backHome")
     }
 
     const registerModal = <ModalForm title={'注册账号'}

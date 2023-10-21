@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import {ProTable} from "@ant-design/pro-table";
+import ProTable from "@ant-design/pro-table";
 import {getRequestData, postRequestData} from "../../../services/server";
 
 const ProjectManage = () => {
@@ -35,6 +35,16 @@ const ProjectManage = () => {
         {
             title: '单价',
             dataIndex: 'unitPrice',
+            hideInSearch: true,
+        },
+        {
+            title: '视频',
+            dataIndex: 'video',
+            hideInSearch: true,
+        },
+        {
+            title: '考试',
+            dataIndex: 'test',
             hideInSearch: true,
         },
         {

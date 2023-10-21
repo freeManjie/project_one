@@ -28,7 +28,7 @@ const projectMenus = [
     },
     {
         label: '订单管理',
-        key: '/project/order',
+        key: '/project/orderList',
         icon: <img src={ order } alt="" style={{ height: '50%' }} />,
     },
     {

@@ -1,5 +1,7 @@
 import React from "react";
 import Echarts from "@components/Echarts";
+import {Col, Row} from "antd";
+import './index.scss'
 export const BackHome = () => {
 
     const echartsBlock = () => {
@@ -75,19 +77,31 @@ export const BackHome = () => {
 
     return (
         <div className={'common-content homePreview'}>
-            <div className={'echarts_one'}>
-                {echartsBlock()}
+            <div className={'homeContent'}>
+                <Row gutter={[48, 48]}>
+                    <Col span={12}>
+                        <div className={'echarts_one'}>
+                            {echartsBlock()}
+                        </div>
+                    </Col>
+                    <Col span={12}>
+                        <div className={''}>
+                            {echartsOne()}
+                        </div>
+                    </Col>
+                    <Col span={12}>
+                        <div className={''}>
+                            {echartsBlock()}
+                        </div>
+                    </Col>
+                    <Col span={12}>
+                        <div className={''}>
+                            {echartsOne()}
+                        </div>
+                    </Col>
+                </Row>
             </div>
-            <div className={''}>
-                {echartsOne()}
-            </div>
-
-            <div className={''}>
-                {echartsBlock()}
-            </div>
-            <div className={''}>
-                {echartsBlock()}
-            </div>
+            <div className={'homeFooter'}></div>
         </div>
     )
 }
