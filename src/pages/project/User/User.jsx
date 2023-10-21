@@ -2,7 +2,9 @@ import React, { useState} from 'react'
 import ProTable from "@ant-design/pro-table";
 import {getRequestData, postRequestData, postDataRequest} from "../../../services/server";
 import EditUser from "./component/EditUser.jsx";
-import {Button} from "antd";
+import moment from 'moment'
+
+const titmeFormat ='YYYY-MM-DD hh:mm:ss'
 
 const User = () => {
     const [showEdit, setShowEdit] = useState(false)
@@ -27,7 +29,7 @@ const User = () => {
             hideInSearch: true,
         },
         {
-            title: '用户昵称',
+            title: '账号',
             dataIndex: 'username',
             // hideInSearch: true,
             order: 1,
@@ -42,7 +44,8 @@ const User = () => {
         },
         {
             title: '创建时间',
-            dataIndex: 'createDate',
+            dataIndex: 'create_at',
+            render: (value, record) => <span>{moment(value).format(titmeFormat)}</span>,
             hideInSearch: true,
         },
         {
@@ -69,13 +72,14 @@ const User = () => {
     const getTableList = async (params, sort, filter) => {
         let tableResult = null
         const requestParams = {
-            username: 'admin',
-
+            username: params.username,
+            pageNo: 1,
+            pageSize: 50,
         }
-        const result = await postDataRequest(`api/user/userList?page=${1}&size=${50}`,)
+        const result = await postDataRequest(`api/v1/auth/adminList`, requestParams)
         tableResult = {
             success: true,
-            data: result || [],
+            data: result.data || [],
             total: result.total,
         }
         const paginationData = {

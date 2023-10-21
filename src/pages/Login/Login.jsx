@@ -44,26 +44,26 @@ export const Login = () => {
     }
 
     const submitLogin = (values) => {
-        // let params = { ...values }
-        // axios.post('api/auth/login', params).then(res => {
-        //     if(res.data.data.access_token) {
-        //         setToken(
-        //             res.data.data.access_token,
-        //             res.data.data.username,
-        //             res.data.data.token_type
-        //         )
-        //         console.log(res, '返回信息')
-        //         message.success(res.data.message)
-        //         history.push("/project/backHome")
-        //     } else {
-        //         message.error(res.data.message)
-        //         return
-        //     }
-        // }).catch((err) => {
-        //       getCaptcha()
-        //       message.error("登录失败，请检查用户名密码!")
-        // })
-        history.push("/project/backHome")
+        let params = { ...values, d: 'd' }
+        axios.post('api/v1/auth/login', params).then(res => {
+            if(res.data.data.access_token) {
+                setToken(
+                    res.data.data.access_token,
+                    res.data.data.username,
+                    res.data.data.token_type
+                )
+                console.log(res, '返回信息')
+                message.success(res.data.message)
+                history.push("/project/backHome")
+            } else {
+                message.error(res.data.message)
+                return
+            }
+        }).catch((err) => {
+              getCaptcha()
+              message.error("登录失败，请检查用户名密码!")
+        })
+        // history.push("/project/backHome")
     }
 
     const registerModal = <ModalForm title={'注册账号'}
