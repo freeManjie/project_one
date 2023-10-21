@@ -1,0 +1,34 @@
+.menuAuthorized {
+  .ant-menu-submenu {
+    .ant-menu-submenu-title {
+      padding-left: 12px !important;
+    }
+
+    .ant-menu-sub {
+      .ant-menu-item {
+        padding-left: 24px !important;
+      }
+    }
+  }
+
+  .ant-menu-item {
+    padding-left: 12px !important;
+  }
+}
+
+.pageRouter {
+  //margin: 10px 0 !important;
+  //padding-left: 10px !important;
+
+  .pageName {
+    font-size: 18px;
+    color: #8b8b83;
+    font-weight: normal;
+    line-height: 20px;
+    margin-right: 10px;
+  }
+
+  .anticon {
+    margin-right: 5px;
+  }
+}

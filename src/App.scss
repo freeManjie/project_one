@@ -1,0 +1,112 @@
+:root {
+  --theme-dpbg: #0b2548;
+}
+
+/*分辨率低于1280，采用下面的样式*/
+@media screen and (max-width: 1280px) {
+
+  html {
+    font-size: 12px !important;
+  }
+
+}
+
+/*分辨率高于1280，采用下面的样式*/
+@media screen and (min-width: 1280px) {
+
+  html {
+    font-size: 14px !important;
+  }
+
+}
+
+/*分辨率高于1440，采用下面的样式*/
+@media screen and (min-width: 1440px) {
+
+  html {
+    font-size: 14px !important;
+  }
+
+}
+
+/*分辨率高于1600，采用下面的样式*/
+@media screen and (min-width: 1600px) {
+
+  html {
+    font-size: 14px !important;
+  }
+
+}
+
+/*分辨率高于1920，采用下面的样式*/
+@media screen and (min-width: 1920px) {
+
+  html {
+    font-size: 14px !important;
+  }
+
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.ant-menu {
+  background: transparent;
+  color: #fff;
+}
+
+.ant-layout-header .back-header h1 {
+  margin: 0 !important;
+  font-size: 1.5em !important;
+}
+
+//页面默认背景
+.common-content {
+  border: 1px solid #ebebeb;
+  background: #fff;
+  padding: 8px;
+  margin: 5px 5px 0 5px;
+  width: calc(100% - 0px);
+  height: calc(100% - 0px);
+  //overflow: scroll;
+
+  h1 {
+    font-size: 20px;
+    color: #4a4a4a;
+    font-weight: normal;
+    line-height: 40px;
+    margin: 0 !important;
+  }
+
+  .ant-divider-horizontal {
+    margin-top: 15px;
+  }
+
+  //search
+  .ant-pro-table .ant-pro-table-search {
+    margin-bottom: 0;
+    padding: 15px;
+
+    .ant-col-offset-4 {
+      margin-left: 0;
+    }
+
+    .ant-col-offset-6 {
+      margin-left: 0;
+    }
+
+    .ant-col-offset-8 {
+      margin-left: 0;
+    }
+
+    .ant-col-offset-12 {
+      margin-left: 0;
+    }
+
+    .ant-form-item-control-input-content {
+      text-align: left;
+    }
+
+  }
+}

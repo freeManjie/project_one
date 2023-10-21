@@ -1,0 +1,110 @@
+.provider-layouts {
+  .ant-layout-header {
+    height: 64px;
+  }
+
+  .ant-layout-header {
+    background-color: #fff;
+    background-size: 100% 64px;
+  }
+  .ant-layout-sider {
+    background: url("../../assets/images/menu_pic.png") !important;
+    background-size: 200px 100% !important;
+
+    .leftMenu .ant-menu-submenu {
+      color: #159485;
+    }
+
+    .leftMenu .ant-menu-submenu-selected {
+      color: #3AF4DC;
+    }
+
+    .leftMenu .ant-menu-submenu-title:hover {
+      color: #3AF4DC;
+    }
+
+    .leftMenu .ant-menu-submenu .ant-menu-title-content a {
+      color: #159485;
+    }
+
+    .leftMenu .ant-menu-submenu .ant-menu-title-content:hover a {
+      color: #fff;
+    }
+
+    .leftMenu .ant-menu-submenu .ant-menu-item.ant-menu-item-selected a {
+      color: #fff;
+    }
+  }
+
+  .ant-menu {
+    width: 200px;
+  }
+
+  .leftMenu {
+    margin-top: 20px;
+  }
+
+  // .ant-menu.ant-menu-dark,
+  // .ant-menu-dark .ant-menu-sub,
+  // .ant-menu.ant-menu-dark .ant-menu-sub {
+  //   // background: url("../../../assets/images/menu_pic.png");
+  //   // background-size: 460px;
+  //   background: rgba(#fff, 0);
+  //   width: 200px;
+  // }
+
+  .ant-menu.ant-menu-sub.ant-menu-inline {
+    background: rgba(#18564F, 0.25);
+  }
+}
+
+.providerLogos {
+  float: left;
+  width: 200px;
+  height: 64px;
+  // margin: 10px 0 1px 0;
+
+  .providerLogoImgs {
+    // height: 32px;
+    // left: 22px;
+    // top: 15px;
+    // position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+  }
+}
+
+.projectTitle {
+  color: white;
+  font-size: 22px;
+  top: -8px;
+  position: relative;
+}
+
+.site-layout {
+  .layout-headers {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    align-items: center;
+
+    .collapsIcons {
+      width: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: -7px;
+
+      .anticon {}
+    }
+
+    .rightHeaders {
+      width: calc(100% - 30px);
+    }
+  }
+}

@@ -1,0 +1,29 @@
+.project-back-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  h1 {
+    // position: relative;
+    // right: 35px;
+    // top: -3px;
+    // float: left;
+    color: #10A290;
+    font-size: 20px;
+    font-weight: 500;
+  }
+
+  .account-menu {
+    // float: right;
+    margin-right: 20px;
+    display: flex;
+    align-items: center;
+    // margin-top: -78px;
+  }
+
+  a.ant-dropdown-trigger.ant-dropdown-link {
+    position: relative;
+    left: 10px;
+  }
+}
