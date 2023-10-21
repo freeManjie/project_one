@@ -18,18 +18,18 @@ module.exports = merge(baseConfig, {
         // https: true,
         proxy: {
             "/api": {
-                target: "http://192.168.1.6:8123",
+                target: "http://172.16.180.199:8124",
                 changeOrigin: true,
                 pathRewrite: {
                     '^/api': '/'
                 },
             },
-            "/api/v1": {
+            "/services/v1": {
                 // target: "http://192.168.1.6:8123",
                 target: "http://172.16.180.199:8124",
                 changeOrigin: true,
                 pathRewrite: {
-                    '^/api/v1': '/v1'
+                    '^/services/v1': '/v1'
                 },
             },
         },

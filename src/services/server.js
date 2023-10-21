@@ -112,9 +112,25 @@ const postDataToApi = (method, requestData, header) => {
     });
 };
 
+const deleteToApi = (method, requestData) => {
+    return new Promise((resolve, reject) => {
+        axios.delete(`${method}`, requestData).then(res => {
+            promiseFn(resolve, res)
+        })
+    });
+};
+
 const putToApi = (method, requestData) => {
     return new Promise((resolve, reject) => {
         axios.put(`${method}`, requestData).then(res => {
+            promiseFn(resolve, res)
+        })
+    });
+};
+
+const patchToApi = (method, requestData) => {
+    return new Promise((resolve, reject) => {
+        axios.patch(`${method}`, requestData).then(res => {
             promiseFn(resolve, res)
         })
     });

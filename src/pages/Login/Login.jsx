@@ -28,14 +28,14 @@ export const Login = () => {
     const getCaptcha = () => {
         axios.get(`api/v1/auth/captchaHandle?d=${'d'}`, {responseType: 'blob'}).then(res => {
             const myBlob = new window.Blob([res.data], { type: 'image/png' })
-            const captacha = window.URL.createObjectURL(myBlob)
-            setCaptcha(captacha)
+            const captcha = window.URL.createObjectURL(myBlob)
+            setCaptcha(captcha)
         })
     }
-    console.log(captcha,)
+
     const submitRegister = (values) => {
         let params = { ...values }
-        axios.post('api/auth/register', params).then(res => {
+        axios.post('api/v1/auth/register', params).then(res => {
             console.log(res, '返回信息')
             message.success(res.message)
         }).catch((err) => {
@@ -86,13 +86,13 @@ export const Login = () => {
         <ProFormText
             width="md"
             name="username"
-            label="用户昵称"
+            label="账号"
             tooltip="最长为 24 位"
-            placeholder="请输入用户昵称"
+            placeholder="请输入账号"
             rules={[
                 {
                     required: true,
-                    message: '请输入用户昵称！',
+                    message: '请输入账号！',
                 },
             ]}
         />
@@ -122,28 +122,28 @@ export const Login = () => {
                 },
             ]}
         />
-        <ProFormText.Password
-            width="md"
-            name="confirm_pwd"
-            label="确认密码"
-            placeholder="请再次输入密码"
-            // rules={[
-            //     {
-            //         required: true,
-            //         message: '请确认密码！',
-            //     },
-            // ]}
-            rules={[
-                ({getFieldValue})=>({
-                    validator(rule, value){
-                        if(!value || getFieldValue('password') === value){
-                            return Promise.resolve()
-                        }
-                        return Promise.reject("两次密码输入不一致")
-                    }
-                })
-            ]}
-        />
+        {/*<ProFormText.Password*/}
+        {/*    width="md"*/}
+        {/*    name="confirm_pwd"*/}
+        {/*    label="确认密码"*/}
+        {/*    placeholder="请再次输入密码"*/}
+        {/*    // rules={[*/}
+        {/*    //     {*/}
+        {/*    //         required: true,*/}
+        {/*    //         message: '请确认密码！',*/}
+        {/*    //     },*/}
+        {/*    // ]}*/}
+        {/*    rules={[*/}
+        {/*        ({getFieldValue})=>({*/}
+        {/*            validator(rule, value){*/}
+        {/*                if(!value || getFieldValue('password') === value){*/}
+        {/*                    return Promise.resolve()*/}
+        {/*                }*/}
+        {/*                return Promise.reject("两次密码输入不一致")*/}
+        {/*            }*/}
+        {/*        })*/}
+        {/*    ]}*/}
+        {/*/>*/}
         <ProFormText
             width="md"
             name="mail"

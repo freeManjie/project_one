@@ -75,10 +75,11 @@ const ProjectManage = () => {
         let tableResult = null
         const requestParams = {
             username: params.username,
-            page: 1,
-            size: 50,
+            state: params.state,
+            pageNo: params.current,
+            pageSize: params.pageSize,
         }
-        const result = await getRequestData(`api/project/projectList`, requestParams).then(res => {
+        const result = await postRequestData(`services/v1/project/projectList`, requestParams).then(res => {
 
         })
         tableResult = {
@@ -100,6 +101,7 @@ const ProjectManage = () => {
                     labelWidth: 'auto',
                     optionRender: (searchConfig, formProps, dom) => [...dom.reverse()]
                 }}
+                pagination={{...pagination, ...pageSize}}
                 tableAlertRender={false}/>
         </div>
     )

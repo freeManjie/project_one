@@ -3,8 +3,10 @@ import ProTable from "@ant-design/pro-table";
 import {getRequestData, postRequestData, postDataRequest} from "../../../services/server";
 import EditUser from "./component/EditUser.jsx";
 import moment from 'moment'
+import {Button} from "antd";
 
-const titmeFormat ='YYYY-MM-DD hh:mm:ss'
+const timeFormat = 'YYYY-MM-DD hh:mm:ss'
+const dateFormat = 'YYYY-MM-DD'
 
 const User = () => {
     const [showEdit, setShowEdit] = useState(false)
@@ -21,6 +23,14 @@ const User = () => {
         },
     })
     const [pageSize, setPageSize] = useState({ pageSize: 50, pageNum: 1 })
+    const [editType, setEditType] = useState('')
+
+    //头部按钮
+    const adminHeaderButton = [
+        <div>
+            <Button size={'middle'} type={'primary'} danger>批量删除</Button>
+        </div>
+    ]
 
     const columns = [
         {
@@ -43,9 +53,14 @@ const User = () => {
             hideInSearch: true,
         },
         {
+            title: '状态',
+            dataIndex: 'state',
+            hideInSearch: true,
+        },
+        {
             title: '创建时间',
             dataIndex: 'create_at',
-            render: (value, record) => <span>{moment(value).format(titmeFormat)}</span>,
+            render: (value, record) => <span>{moment(value).format(timeFormat)}</span>,
             hideInSearch: true,
         },
         {
@@ -61,6 +76,7 @@ const User = () => {
 
     const editUser = (record) => {//编辑用户
         setModalTitle('编辑用户信息')
+        setEditType('edit')
         setShowEdit(true)
     }
 
@@ -69,12 +85,21 @@ const User = () => {
         setShowDetail(true)
     }
 
+    const rechargeUser = () => {
+        setModalTitle('用户充值')
+        setEditType('recharge')
+        setShowEdit(true)
+    }
+
     const getTableList = async (params, sort, filter) => {
         let tableResult = null
         const requestParams = {
             username: params.username,
-            pageNo: 1,
-            pageSize: 50,
+            state: params.state,
+            start_date: params.create_at && moment(params.create_at[0]).format(dateFormat),
+            end_date: params.create_at && moment(params.create_at[1]).format(dateFormat),
+            pageNo: params.current,
+            pageSize: params.pageSize,
         }
         const result = await postDataRequest(`api/v1/auth/adminList`, requestParams)
         tableResult = {
@@ -97,7 +122,7 @@ const User = () => {
         return tableResult
     }
 
-    const editProps = { showModal: showEdit, setShowModal: setShowEdit, modalTitle }
+    const editProps = { showModal: showEdit, setShowModal: setShowEdit, modalTitle, editType }
     const detailProps = { showModal: showDetail, setShowModal: setShowDetail, modalTitle }
 
     return (
@@ -111,7 +136,8 @@ const User = () => {
                         labelWidth: 'auto',
                         optionRender: (searchConfig, formProps, dom) => [...dom.reverse()]
                     }}
-                    request={(params, sort, filter) => getTableList({ ...params }, sort, filter) }
+                    // request={(params, sort, filter) => getTableList({ ...params }, sort, filter) }
+                    headerTitle={adminHeaderButton}
                     tableAlertOptionRender={false}
                     options={ false }/>
             </div>
