@@ -27,13 +27,13 @@ export const MyBreadcrumb = (props) => {
                 {
                     nowMenu && !nowMenu?.children ?
                         <Breadcrumb className="pageRouter">
-                            <Breadcrumb.Item style={ { color: "#1D66C9" } }>{ nowMenu?.icon }{ nowMenu?.label }</Breadcrumb.Item>
+                            <Breadcrumb.Item style={ { color: "#03a9f4" } }>{ nowMenu?.icon }{ nowMenu?.label }</Breadcrumb.Item>
                         </Breadcrumb>
                         :
                         <Breadcrumb className="pageRouter">
-                            <Breadcrumb.Item style={ { color: "#10A693" } }>{ nowMenu?.icon }{ nowMenu?.label }</Breadcrumb.Item>
+                            <Breadcrumb.Item style={ { color: "#03a9f4" } }>{ nowMenu?.icon }{ nowMenu?.label }</Breadcrumb.Item>
                             <Breadcrumb.Item
-                                style={ { color: "#00000073" } }>{ nowMenu?.children.find(child => child.key === currentPath).label }</Breadcrumb.Item>
+                                style={ { color: "#03a9f4" } }>{ nowMenu?.children.find(child => child.key === currentPath).label }</Breadcrumb.Item>
                         </Breadcrumb>
                 }
             </>

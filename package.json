@@ -53,5 +53,9 @@
     "webpack-cli": "^3.3.3",
     "webpack-dev-server": "^3.11.3",
     "webpack-merge": "^4.2.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/freeManjie/project_one.git"
   }
 }

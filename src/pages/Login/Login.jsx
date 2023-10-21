@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { LockOutlined, UserOutlined }  from "@ant-design/icons";
+import {LockOutlined, SafetyOutlined, UserOutlined} from "@ant-design/icons";
 import { LoginFormPage, ProConfigProvider, ProFormCaptcha, ProForm, ProFormText, ModalForm } from "@ant-design/pro-components";
 import { Button, Form, message } from "antd";
 import "./Login.scss"
@@ -8,12 +8,15 @@ import {useHistory} from "react-router-dom";
 import {setToken, getToken} from "../../utils/login";
 import {isEmpty} from "../../utils/utils";
 
+const base64Str = `data:image/jpeg;base64,`
+
 export const Login = () => {
     const [form] = Form.useForm()
     const history = useHistory()
-    const [loginInfo, setLoginInfo] = useState()
+    const [captcha, setCaptcha] = useState()
 
     useEffect(() => {
+        getCaptcha()
         const accessToken = getToken()
         if (!isEmpty(accessToken)) {
             history.push("/project/backHome")
@@ -22,6 +25,14 @@ export const Login = () => {
         }
     }, [])
 
+    const getCaptcha = () => {
+        axios.get(`api/v1/auth/captchaHandle?d=${'d'}`, {responseType: 'blob'}).then(res => {
+            const myBlob = new window.Blob([res.data], { type: 'image/png' })
+            const captacha = window.URL.createObjectURL(myBlob)
+            setCaptcha(captacha)
+        })
+    }
+    console.log(captcha,)
     const submitRegister = (values) => {
         let params = { ...values }
         axios.post('api/auth/register', params).then(res => {
@@ -49,7 +60,8 @@ export const Login = () => {
         //         return
         //     }
         // }).catch((err) => {
-        //     console.log(err, '错误参数')
+        //       getCaptcha()
+        //       message.error("登录失败，请检查用户名密码!")
         // })
         history.push("/project/backHome")
     }
@@ -194,6 +206,33 @@ export const Login = () => {
                                     },
                                 ]}
                             />
+                            <ProFormCaptcha
+                                name="captcha"
+                                fieldProps={{
+                                    size: 'large',
+                                    prefix: (
+                                        <SafetyOutlined className={'prefixIcon'} />
+                                    ),
+                                }}
+                                captchaProps={{
+                                    size: 'large',
+                                }}
+                                placeholder={'请输入验证码'}
+                                captchaTextRender={(timing, count) => {
+                                    // if (timing) {
+                                    //     return `${count} ${'获取验证码'}`;
+                                    // }
+                                    return <img src={captcha} style={{width: "80%", borderRadius: 4, height: '120%' }} alt='vercode'/>
+                                }}
+                                onGetCaptcha={async () => {
+                                    getCaptcha()
+                                }}
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: '请输入验证码！',
+                                    },
+                                ]}/>
                         </>
                         <div style={{ float: 'right', marginBottom: '12px' }}>
                             { registerModal }

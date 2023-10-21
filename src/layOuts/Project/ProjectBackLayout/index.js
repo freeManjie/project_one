@@ -55,7 +55,7 @@ function ProjectBackLayout() {
                 >
                     <div className="projectLogo">
                         <div className="projectLogoImg">
-                            <div style={{ fontWeight: 700, color: 'rgb(16 162 144)', fontSize: 24 }}>AiForu</div>
+                            <div style={{ fontWeight: 700, color: '#03a9f4', fontSize: 24 }}>AiForu</div>
                         </div>
                     </div>
                     <LeftSider></LeftSider>
