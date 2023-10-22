@@ -13,7 +13,7 @@ const projectMenus = [
     },
     {
         label: '项目列表',
-        key: '/project/projectManage',
+        // key: '/project/projectManage',
         icon: <img src={ project } alt="" style={{ height: '50%' }} />,
         children: [
             {
@@ -36,11 +36,11 @@ const projectMenus = [
         key: '/project/record',
         icon: <img src={ order } alt="" style={{ height: '50%' }} />,
     },
-    {
-        label: '资金明细',
-        key: '/project/fundDetails',
-        icon: <img src={ order } alt="" style={{ height: '50%' }} />,
-    },
+    // {
+    //     label: '资金明细',
+    //     key: '/project/fundDetails',
+    //     icon: <img src={ order } alt="" style={{ height: '50%' }} />,
+    // },
     {
         label: '用户列表',
         key: '/project/user',

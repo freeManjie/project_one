@@ -11,10 +11,9 @@ axios.interceptors.request.use(
         // showLoading()
         let token = getToken();
         // if (!(config.url.indexOf("refresh") !== -1)) {
-            if (token) {
+            if (token && !(config.url.indexOf("refresh") !== -1)) {
                 // 判断是否存在token，如果存在的话，则每个http header都加上token
-                config.headers.Authorization = `Bearer` + `JWT${token}`;
-                console.log(token, config.headers.Authorization )
+                config.headers.Authorization = `Bearer ${token}`;
             }
         // }
         return config;

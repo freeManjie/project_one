@@ -8,8 +8,6 @@ import {useHistory} from "react-router-dom";
 import {setToken, getToken} from "../../utils/login";
 import {isEmpty} from "../../utils/utils";
 
-const base64Str = `data:image/jpeg;base64,`
-
 export const Login = () => {
     const [form] = Form.useForm()
     const history = useHistory()
@@ -45,25 +43,30 @@ export const Login = () => {
 
     const submitLogin = (values) => {
         let params = { ...values, d: 'd' }
-        axios.post('api/v1/auth/login', params).then(res => {
+        axios.post('api/v1/auth/login', params).then((res) => {
+            if (res.data.data == null) {
+                message.error(res.data.message)
+                getCaptcha()
+                return;
+            }
             if(res.data.data.access_token) {
                 setToken(
                     res.data.data.access_token,
-                    res.data.data.username,
-                    res.data.data.token_type
+                    params.username,
+                    res.data.data.refresh_token
                 )
-                console.log(res, '返回信息')
-                message.success(res.data.message)
                 history.push("/project/backHome")
+                message.success(res.data.message)
+                location.reload();
             } else {
-                message.error(res.data.message)
-                return
+                getCaptcha()
+                message.error("登录失败，请检查用户名密码!")
             }
-        }).catch((err) => {
+        })
+            .catch((err) => {
               getCaptcha()
               message.error("登录失败，请检查用户名密码!")
         })
-        // history.push("/project/backHome")
     }
 
     const registerModal = <ModalForm title={'注册账号'}
@@ -197,6 +200,7 @@ export const Login = () => {
                                     prefix: (
                                         <LockOutlined className={'prefixIcon'} />
                                     ),
+                                    autoComplete: 'off'
                                 }}
                                 placeholder={'密码: 123456'}
                                 rules={[

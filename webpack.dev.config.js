@@ -13,7 +13,7 @@ const baseConfig = require("./webpack.base.config.js")
 module.exports = merge(baseConfig, {
     mode: "development",
     devServer: {
-        // host: "0.0.0.0",
+        host: "172.16.180.166",
         port: "8099",
         // https: true,
         proxy: {

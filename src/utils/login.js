@@ -1,11 +1,10 @@
-const loginAdmin = 'ADMIN'
 const loginUser = 'User'
 const tokenKey = 'AI_Token';
-const tokenType = 'User'
-export const setToken = (access_token, userName, token_type) => {
+const refreshToken = 'refreshToken'
+export const setToken = (access_token, userName, refresh_token) => {
     localStorage.setItem(tokenKey, access_token);
     localStorage.setItem(loginUser, userName);
-    localStorage.setItem(tokenType, token_type + "");
+    localStorage.setItem(refreshToken, refresh_token + "");
     // refreshLoginUserRes();
 }
 
@@ -19,7 +18,7 @@ export const getToken = () => {
 
 export const removeToken = () => {
     localStorage.removeItem(tokenKey);
-    localStorage.removeItem(tokenType);
+    localStorage.removeItem(refreshToken);
 }
 
 export const logout = () => {
@@ -27,4 +26,4 @@ export const logout = () => {
     window.location.href = '/'
 }
 
-export default { getToken, getLoginUser, removeToken }
+export default { getToken, getLoginUser, removeToken, logout }
