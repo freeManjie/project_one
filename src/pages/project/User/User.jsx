@@ -1,14 +1,16 @@
-import React, { useState} from 'react'
+import React, {useEffect, useRef, useState} from 'react'
 import ProTable from "@ant-design/pro-table";
-import {getRequestData, postRequestData, postDataRequest} from "../../../services/server";
+import {getRequestData, deleteRequestData, postDataRequest} from "../../../services/server";
 import EditUser from "./component/EditUser.jsx";
 import moment from 'moment'
-import {Button} from "antd";
+import {Button, DatePicker, Descriptions, message, Modal, Select, Form} from "antd";
+import {userStatus, getStatusView, projectStatus} from "../../../utils/status";
+import {RoleList} from "./component/RoleList.jsx";
 
-const timeFormat = 'YYYY-MM-DD hh:mm:ss'
 const dateFormat = 'YYYY-MM-DD'
 
 const User = () => {
+    const actionRef = useRef()
     const [showEdit, setShowEdit] = useState(false)
     const [modalTitle, setModalTitle] = useState('')
     const [showDetail, setShowDetail] = useState(false)
@@ -24,11 +26,23 @@ const User = () => {
     })
     const [pageSize, setPageSize] = useState({ pageSize: 50, pageNum: 1 })
     const [editType, setEditType] = useState('')
+    const [userRecord, setUserRecord] = useState()
+    const [selectedRowKeys, setSelectedRowKeys] = useState([])//勾选用户id
+    const [showRole, setShowRole] = useState(false)
+    const [showRecharge, setShowRecharge] = useState(false)
+    const [roleList, setRoleList] = useState([])
+    const [showBatch, setShowBatch] = useState(false)
+
+    useEffect(() => {
+
+    }, [])
 
     //头部按钮
     const adminHeaderButton = [
         <div>
-            <Button size={'middle'} type={'primary'} danger>批量删除</Button>
+            <Button onClick={() => deleteUser(selectedRowKeys, 1)} size={'middle'} disabled={selectedRowKeys.length ? false : true} type={'primary'} danger>批量删除</Button>
+            <Button onClick={() => setShowRole(true)} size={'middle'} type={'primary'} style={{ margin: '0 5px 0 5px' }}>角色配置</Button>
+            <Button onClick={() => setShowBatch(true)} size={'middle'} disabled={selectedRowKeys.length ? false : true} type={'primary'} style={{ margin: '0 5px 0 5px' }}>批量设置角色</Button>
         </div>
     ]
 
@@ -53,49 +67,117 @@ const User = () => {
             hideInSearch: true,
         },
         {
+            title: '余额(元)',
+            dataIndex: 'money',
+            hideInSearch: true,
+        },
+        {
+            title: '等级',
+            dataIndex: 'level',
+            hideInSearch: true,
+        },
+        {
+            title: '角色',
+            dataIndex: 'role_name',
+            hideInSearch: true,
+        },
+        {
+            title: '角色金额倍数',
+            dataIndex: 'role_multiple',
+            hideInSearch: true,
+        },
+        {
             title: '状态',
             dataIndex: 'state',
-            hideInSearch: true,
+            render: (value, record) => <span>{getStatusView(userStatus, value)}</span>,
+            renderFormItem: () => (
+                <Select style={{ width: '100%' }} placeholder='请选择状态' allowClear>
+                    {Object.keys(userStatus).map((x, index) => <Option key={index} value={x}>{userStatus[x].text}</Option>)}
+                </Select>
+            ),
         },
         {
             title: '创建时间',
             dataIndex: 'create_at',
-            render: (value, record) => <span>{moment(value).format(timeFormat)}</span>,
-            hideInSearch: true,
+            // valueType: 'dateRange',
+            render: (value, record) => <span>{value}</span>,
+            renderFormItem: () => <DatePicker.RangePicker />
+            // hideInSearch: true,
         },
         {
             title: '操作',
             dataIndex: 'action',
             hideInSearch: true,
             render: (_, record) => <>
-                <span className={''} onClick={() => editUser(record)}>编辑</span>
-                <span className={''} onClick={() => userDetail(record)}>详情</span>
+                <span className={'opera-span'} onClick={() => editUser(record)}>编辑</span>
+                <span className={'opera-span'} style={{ color: 'yellowgreen' }} onClick={() => rechargeUser(record)}>充值</span>
+                <span className={'opera-span'} style={{ color: 'red' }} onClick={() => deleteUser([record.id], 0)}>删除</span>
+                <span className={'opera-span'} onClick={() => userDetail(record)}>详情</span>
             </>,
         },
     ]
 
     const editUser = (record) => {//编辑用户
-        setModalTitle('编辑用户信息')
+        const name = <span style={{ color: '#03a9f4' }}>{record.name}</span>
+        setModalTitle(`编辑用户${record.name}`)
         setEditType('edit')
         setShowEdit(true)
+        setUserRecord(record)
     }
 
-    const userDetail = (record) => {//用户详情
-        setModalTitle('用户详情')
-        setShowDetail(true)
+    const detailModal = (record) => {
+        Modal.success({
+            title: '用户详情',
+            content: ''
+        });
     }
 
-    const rechargeUser = () => {
+    const userDetail = async (record) => {//用户详情
+        getRequestData(`services/v1/auth/adminHandle?uid=${record.id}`).then(res => {
+            if(res) {
+                detailModal(res.data)
+            }
+        })
+    }
+    //批量配置用户角色
+
+    const rechargeUser = (record) => {
         setModalTitle('用户充值')
         setEditType('recharge')
-        setShowEdit(true)
+        setShowRecharge(true)
+        setUserRecord(record)
+    }
+
+    const rowSelection = {
+        type: "checkbox",
+        selectedRowKeys,
+        preserveSelectedRowKeys: true,
+        onChange: (record, selected, selectedRows, nativeEvent) => {
+            setSelectedRowKeys(record)
+        },
+    }
+
+    //删除/批量删除用户
+    const deleteUser = async (ids, type) => {
+        let params = {
+            ids: ids
+        }
+        deleteRequestData(`services/v1/auth/adminHandle`, params).then(res => {
+            if(res) {
+                actionRef?.current?.reload()
+                message.success('删除成功')
+            } else {
+                message.warn('删除失败')
+            }
+        })
     }
 
     const getTableList = async (params, sort, filter) => {
         let tableResult = null
         const requestParams = {
             username: params.username,
-            state: params.state,
+            state: params.state && Number(params.state),
+            name: params.name,
             start_date: params.create_at && moment(params.create_at[0]).format(dateFormat),
             end_date: params.create_at && moment(params.create_at[1]).format(dateFormat),
             pageNo: params.current,
@@ -105,12 +187,12 @@ const User = () => {
         tableResult = {
             success: true,
             data: result.data || [],
-            total: result.total,
+            total: result.meta.total,
         }
         const paginationData = {
             showSizeChanger: true,
-            current: Math.ceil(result?.data / pageSize.pageSize + result?.total / pageSize.pageSize),
-            total: result?.total || 0,
+            current: Math.ceil(result?.data / pageSize.pageSize + result.meta.total / pageSize.pageSize),
+            total: result.meta.total || 0,
             size: 'default',
             showQuickJumper: true,
             showTotal: (total, range) => (<span>{`共${total}条记录 第${Math.ceil(range[0] / pageSize.pageSize) || 0} 页`}</span>),
@@ -122,29 +204,51 @@ const User = () => {
         return tableResult
     }
 
-    const editProps = { showModal: showEdit, setShowModal: setShowEdit, modalTitle, editType }
-    const detailProps = { showModal: showDetail, setShowModal: setShowDetail, modalTitle }
+    const editProps = { showModal: showEdit, setShowModal: setShowEdit, modalTitle, editType, userRecord, actionRef: actionRef }
+    const roleProps = { showModal: showRole, setShowModal: setShowRole, setRoleList }
+    const rechargeProps = { showModal: showRecharge, setShowModal: setShowRecharge, modalTitle, editType, userRecord, actionRef: actionRef }
 
     return (
         <>
             <div className={'common-content '}>
                 <ProTable
-                    columns={ columns }
+                    rowKey={record => record.id}
+                    actionRef={actionRef}
+                    columns={columns}
                     pagination={{ ...pagination, ...pageSize}}
                     search={{
-                        span: 8,
+                        span: 6,
                         labelWidth: 'auto',
                         optionRender: (searchConfig, formProps, dom) => [...dom.reverse()]
                     }}
-                    // request={(params, sort, filter) => getTableList({ ...params }, sort, filter) }
+                    rowSelection={rowSelection}
+                    request={(params, sort, filter) => getTableList({ ...params }, sort, filter) }
                     headerTitle={adminHeaderButton}
                     tableAlertOptionRender={false}
                     options={ false }/>
             </div>
 
+            <Modal
+                title={'批量配置角色'}
+            visible={showBatch}
+            onCancel={() => {
+                setShowBatch(false)
+            }}>
+                <Form>
+                    <Form.Item label={'角色'} name={''}>
+                        <Select>
+                            {roleList?.map((item, index) => <Option key={index} value={item.role_name}>
+                                {item.role_name}
+                            </Option>)}
+                        </Select>
+                    </Form.Item>
+                </Form>
+            </Modal>
+
             {/* 编辑用户 */}
             {showEdit && <EditUser { ...editProps } />}
-            {showDetail && <EditUser { ...detailProps } />}
+            {showRecharge && <EditUser { ...rechargeProps } />}
+            <RoleList { ...roleProps } />
         </>
     )
 }

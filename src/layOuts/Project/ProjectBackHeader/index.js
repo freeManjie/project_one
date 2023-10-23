@@ -3,7 +3,7 @@ import { DownOutlined, BellOutlined } from "@ant-design/icons"
 import React, { useState, useEffect } from "react"
 import { useHistory } from "react-router-dom"
 import "./index.scss"
-import { logout } from '@utils/login.js'
+import { logout, getLoginUser } from '@utils/login.js'
 import avatar from '../../../assets/images/header/header.png'
 
 function Header() {
@@ -22,6 +22,11 @@ function Header() {
 
     const menu = (
         <Menu>
+            <Menu.Item>
+                <div>
+                    {getLoginUser()}
+                </div>
+            </Menu.Item>
             <Menu.Item>
                 <div onClick={() => { setLogOut(true) }} >
                     退出账户

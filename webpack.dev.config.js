@@ -13,20 +13,21 @@ const baseConfig = require("./webpack.base.config.js")
 module.exports = merge(baseConfig, {
     mode: "development",
     devServer: {
-        // host: "0.0.0.0",
+        // host: "172.16.180.166",
+        host: "192.168.1.3",
         port: "8099",
         // https: true,
         proxy: {
             "/api": {
-                target: "http://172.16.180.199:8124",
+                target: "http://701603cc.r6.cpolar.top",
                 changeOrigin: true,
                 pathRewrite: {
                     '^/api': '/'
                 },
             },
             "/services/v1": {
-                // target: "http://192.168.1.6:8123",
-                target: "http://172.16.180.199:8124",
+                target: "http://701603cc.r6.cpolar.top",
+                // target: "http://172.16.180.199:8124",
                 changeOrigin: true,
                 pathRewrite: {
                     '^/services/v1': '/v1'

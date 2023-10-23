@@ -2,6 +2,7 @@ import React, {useRef, useState} from "react";
 import ProTable from "@ant-design/pro-table";
 import {Button, DatePicker} from "antd";
 import {getRequestData, postDataRequest} from "../../../services/server";
+import CreateOrder from "./component/CreateOrder.jsx";
 
 const { RangePicker } = DatePicker
 const OrderList = () => {
@@ -17,10 +18,11 @@ const OrderList = () => {
         },
     })
     const [pageSize, setPageSize] = useState({ pageSize: 50, pageNum: 1 })
+    const [showOrder, setShowOrder] = useState(false)
 
     const headerButton = [
         <div>
-            <Button type="primary">创建订单</Button>
+            <Button onClick={() => setShowOrder(true)} type="primary">创建订单</Button>
             <Button style={{ margin: '0 10px 0 10px' }}>批量创建</Button>
             <Button type="primary" danger>批量删除</Button>
         </div>
@@ -127,6 +129,8 @@ const OrderList = () => {
         return tableResult
     }
 
+    const addProps = {showModal: showOrder, setShowModal: setShowOrder, }
+
     return (
         <div className={'common-content'}>
             <ProTable
@@ -137,11 +141,13 @@ const OrderList = () => {
                 optionRender: (searchConfig, formProps, dom) => [...dom.reverse()]
             }}
             pagination={{ ...pagination, ...pageSize}}
-            request={(params, sort, filter) => getTableList({ ...params }, sort, filter) }
+            // request={(params, sort, filter) => getTableList({ ...params }, sort, filter) }
             headerTitle={headerButton}
             rowSelection={{}}
             options={false}
             tableAlertRender={false}/>
+
+            <CreateOrder { ...addProps } />
         </div>
     )
 }
