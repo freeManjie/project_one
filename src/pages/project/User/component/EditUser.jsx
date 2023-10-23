@@ -19,7 +19,7 @@ const EditUser = (props) => {
             form.resetFields()
         }
         console.log(userRecord)
-        form.setFieldsValue({ ...userRecord })
+        editType == 'edit' && form.setFieldsValue({ ...userRecord })
     }, [showModal])
 
     const onFinish = (values) => {

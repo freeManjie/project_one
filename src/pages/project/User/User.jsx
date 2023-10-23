@@ -1,13 +1,12 @@
-import React, {useRef, useState} from 'react'
+import React, {useEffect, useRef, useState} from 'react'
 import ProTable from "@ant-design/pro-table";
 import {getRequestData, deleteRequestData, postDataRequest} from "../../../services/server";
 import EditUser from "./component/EditUser.jsx";
 import moment from 'moment'
-import {Button, Descriptions, message, Modal} from "antd";
-import {userStatus, getStatusView} from "../../../utils/status";
+import {Button, DatePicker, Descriptions, message, Modal, Select, Form} from "antd";
+import {userStatus, getStatusView, projectStatus} from "../../../utils/status";
 import {RoleList} from "./component/RoleList.jsx";
 
-const timeFormat = 'YYYY-MM-DD hh:mm:ss'
 const dateFormat = 'YYYY-MM-DD'
 
 const User = () => {
@@ -32,12 +31,16 @@ const User = () => {
     const [showRole, setShowRole] = useState(false)
     const [showRecharge, setShowRecharge] = useState(false)
 
+    useEffect(() => {
+
+    }, [])
+
     //头部按钮
     const adminHeaderButton = [
         <div>
             <Button onClick={() => deleteUser(selectedRowKeys, 1)} size={'middle'} disabled={selectedRowKeys.length ? false : true} type={'primary'} danger>批量删除</Button>
             <Button onClick={() => setShowRole(true)} size={'middle'} type={'primary'} style={{ margin: '0 5px 0 5px' }}>角色配置</Button>
-            <Button size={'middle'} type={'primary'} style={{ margin: '0 5px 0 5px' }}>批量设置角色</Button>
+            <Button size={'middle'} disabled={selectedRowKeys.length ? false : true} type={'primary'} style={{ margin: '0 5px 0 5px' }}>批量设置角色</Button>
         </div>
     ]
 
@@ -73,25 +76,31 @@ const User = () => {
         },
         {
             title: '角色',
-            dataIndex: 'roleName',
+            dataIndex: 'role_name',
             hideInSearch: true,
         },
         {
             title: '角色金额倍数',
-            dataIndex: 'roleMultiple',
+            dataIndex: 'role_multiple',
             hideInSearch: true,
         },
         {
             title: '状态',
             dataIndex: 'state',
             render: (value, record) => <span>{getStatusView(userStatus, value)}</span>,
-            hideInSearch: true,
+            renderFormItem: () => (
+                <Select style={{ width: '100%' }} placeholder='请选择状态' allowClear>
+                    {Object.keys(userStatus).map((x, index) => <Option key={index} value={x}>{userStatus[x].text}</Option>)}
+                </Select>
+            ),
         },
         {
             title: '创建时间',
             dataIndex: 'create_at',
-            // render: (value, record) => <span>{moment(value).format(timeFormat)}</span>,
-            hideInSearch: true,
+            // valueType: 'dateRange',
+            render: (value, record) => <span>{value}</span>,
+            renderFormItem: () => <DatePicker.RangePicker />
+            // hideInSearch: true,
         },
         {
             title: '操作',
@@ -117,14 +126,7 @@ const User = () => {
     const detailModal = (record) => {
         Modal.success({
             title: '用户详情',
-            content: () => {
-                return <Descriptions>
-                    <Descriptions.Item label={'姓名'}>{record.name}</Descriptions.Item>
-                    <Descriptions.Item label={'等级'}>{record.level}</Descriptions.Item>
-                    <Descriptions.Item label={'账户余额'}>{record.money}</Descriptions.Item>
-                    <Descriptions.Item label={'状态'}>{getStatusView(userStatus, record.state)}</Descriptions.Item>
-                </Descriptions>
-            },
+            content: ''
         });
     }
 
@@ -135,6 +137,7 @@ const User = () => {
             }
         })
     }
+    //批量配置用户角色
 
     const rechargeUser = (record) => {
         setModalTitle('用户充值')
@@ -171,7 +174,8 @@ const User = () => {
         let tableResult = null
         const requestParams = {
             username: params.username,
-            state: params.state,
+            state: params.state && Number(params.state),
+            name: params.name,
             start_date: params.create_at && moment(params.create_at[0]).format(dateFormat),
             end_date: params.create_at && moment(params.create_at[1]).format(dateFormat),
             pageNo: params.current,
@@ -208,10 +212,10 @@ const User = () => {
                 <ProTable
                     rowKey={record => record.id}
                     actionRef={actionRef}
-                    columns={ columns }
+                    columns={columns}
                     pagination={{ ...pagination, ...pageSize}}
                     search={{
-                        span: 8,
+                        span: 6,
                         labelWidth: 'auto',
                         optionRender: (searchConfig, formProps, dom) => [...dom.reverse()]
                     }}
@@ -221,6 +225,14 @@ const User = () => {
                     tableAlertOptionRender={false}
                     options={ false }/>
             </div>
+
+            <Modal>
+                <Form>
+                    <Form.Item label={'角色'} name={''}>
+                        <Select></Select>
+                    </Form.Item>
+                </Form>
+            </Modal>
 
             {/* 编辑用户 */}
             {showEdit && <EditUser { ...editProps } />}

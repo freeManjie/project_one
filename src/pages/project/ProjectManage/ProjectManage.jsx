@@ -2,8 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import ProTable from "@ant-design/pro-table";
 import {getRequestData, postRequestData, putRequestData} from "../../../services/server";
 import {getStatusView, projectStatus} from "../../../utils/status";
-import {act} from "react-dom/test-utils";
-import {message} from "antd";
+import {message, Select} from "antd";
 
 const ProjectManage = () => {
     const actionRef = useRef()
@@ -16,6 +15,7 @@ const ProjectManage = () => {
         showTotal: () => {
             return `共 0 条记录 第 0 页`
         },
+        onShowSizeChange:() =>{}
     })
     const [pageSize, setPageSize] = useState({ pageSize: 50, pageNum: 1 })
 
@@ -30,11 +30,13 @@ const ProjectManage = () => {
         {
             title: '网站',
             dataIndex: 'url',
+            render: (value) => <a onClick={() =>{ window.open(value) }}>{value}</a>,
             hideInSearch: true,
         },
         {
             title: '项目名称',
             dataIndex: 'name',
+            render: (value) => <span className={'opera-span'} onClick={() => detailProject(record)}>{value}</span>
         },
         {
             title: '单价',
@@ -69,9 +71,14 @@ const ProjectManage = () => {
         {
             title: '状态',
             dataIndex: 'state',
-            hideInSearch: true,
+            // hideInSearch: true,
             width: 60,
-            render: (value) => <span>{getStatusView(projectStatus, value)}</span>
+            render: (value) => <span>{getStatusView(projectStatus, value)}</span>,
+            renderFormItem: () => (
+                <Select style={{ width: '100%' }} placeholder='请选择状态' allowClear>
+                    {Object.keys(projectStatus).map((x, index) => <Option key={index} value={x}>{projectStatus[x].text}</Option>)}
+                </Select>
+            ),
         },
         {
             title: '操作',
@@ -124,7 +131,7 @@ const ProjectManage = () => {
             showQuickJumper: true,
             showTotal: (total, range) => (<span>{`共${total}条记录 第${Math.ceil(range[0] / pageSize.pageSize) || 0} 页`}</span>),
             onShowSizeChange: (current, size) => {
-                setPageSize({ pageSize: size })
+                setPageSize({ pageSize: size, pageNum: current })
             },
         }
         setPagination(paginationData)
