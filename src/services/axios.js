@@ -60,9 +60,9 @@ axios.interceptors.response.use(response => {
             //     }).catch(res => {
             //         // 刷新token报错的话, 就需要跳转到登录页面
             //         console.error('refreshtoken error =>', res)
-                    message.error("token过期,请重新登录!");
-                    setTimeout(() => { window.location.href = '/' }, 2000)
-                    logout();
+            //         message.error("token过期,请重新登录!");
+            //         setTimeout(() => { window.location.href = '/' }, 2000)
+            //         logout();
             //     }).finally(() => {
             //         isRefreshing = false
             //     })

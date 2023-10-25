@@ -2,6 +2,7 @@ import BackHome from "../pages/project/BackHome";
 import User from '../pages/project/User/User.jsx'
 import ProjectManage from "../pages/project/ProjectManage";
 import OrderList from '../pages/project/Order'
+import ConsumptionRecords from "../pages/project/ConsumptionRecords";
 
 const redirectPath = "/login"
 
@@ -24,6 +25,11 @@ const projectRouters = [
     {
         path: "/project/orderList",//订单管理
         component: OrderList,
+        redirectPath: redirectPath,
+    },
+    {
+        path: "/project/consumptionRecords",//消费记录
+        component: ConsumptionRecords,
         redirectPath: redirectPath,
     },
 ]

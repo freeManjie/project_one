@@ -33,7 +33,7 @@ const projectMenus = [
     },
     {
         label: '消费记录',
-        key: '/project/record',
+        key: '/project/consumptionRecords',
         icon: <img src={ order } alt="" style={{ height: '50%' }} />,
     },
     // {

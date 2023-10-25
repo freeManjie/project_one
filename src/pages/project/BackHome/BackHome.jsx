@@ -12,11 +12,11 @@ export const BackHome = () => {
     const [list, setList] = useState([])
 
     useEffect(() => {
-        // getRequestData(`services/v1/auth/adminList`).then(res =>{
-        //     if(res.data) {
-        //         setList(res.data)
-        //     }
-        // })
+        getRequestData(`services/v1/auth/adminList`).then(res =>{
+            if(res.data) {
+                setList(res.data)
+            }
+        })
     }, [])
 
     const echartsBlock = () => {
@@ -97,9 +97,9 @@ export const BackHome = () => {
                 <div className={'box-echarts'}>
                     {echartsBlock()}
                 </div>
-                <div className={'box-echarts'}>
-                    {echartsBlock()}
-                </div>
+                {/*<div className={'box-echarts'}>*/}
+                {/*    {echartsBlock()}*/}
+                {/*</div>*/}
             </div>
         </div>
     )

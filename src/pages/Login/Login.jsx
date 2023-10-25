@@ -42,32 +42,32 @@ export const Login = () => {
     }
 
     const submitLogin = (values) => {
-        history.push("/project/backHome")
+        // history.push("/project/backHome")
         let params = { ...values, d: 'd' }
-        // axios.post('api/v1/auth/login', params).then((res) => {
-        //     if (res.data.data == null) {
-        //         message.error(res.data.message)
-        //         getCaptcha()
-        //         return;
-        //     }
-        //     if(res.data.data.access_token) {
-        //         setToken(
-        //             res.data.data.access_token,
-        //             params.username,
-        //             res.data.data.refresh_token
-        //         )
-        //         history.push("/project/backHome")
-        //         message.success(res.data.message)
-        //         location.reload();
-        //     } else {
-        //         getCaptcha()
-        //         message.error("登录失败，请检查用户名密码!")
-        //     }
-        // })
-        //     .catch((err) => {
-        //       getCaptcha()
-        //       message.error("登录失败，请检查用户名密码!")
-        // })
+        axios.post('api/v1/auth/login', params).then((res) => {
+            if (res.data.data == null) {
+                message.error(res.data.message)
+                getCaptcha()
+                return;
+            }
+            if(res.data.data.access_token) {
+                setToken(
+                    res.data.data.access_token,
+                    params.username,
+                    res.data.data.refresh_token
+                )
+                history.push("/project/backHome")
+                message.success(res.data.message)
+                location.reload();
+            } else {
+                getCaptcha()
+                message.error("登录失败，请检查用户名密码!")
+            }
+        })
+            .catch((err) => {
+              getCaptcha()
+              message.error("登录失败，请检查用户名密码!")
+        })
     }
 
     const registerModal = <ModalForm title={'注册账号'}
