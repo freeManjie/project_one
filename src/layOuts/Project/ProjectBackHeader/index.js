@@ -35,10 +35,6 @@ function Header() {
         </Menu>
     )
 
-    const goHome = (e) => {
-        history.push("/project/home")
-    }
-
     const getWeek = (value) => {
         switch (value) {
             case '1':
@@ -55,7 +51,6 @@ function Header() {
                 return '周六'
             case '7':
                 return '周日'
-
             default:
                 break
         }

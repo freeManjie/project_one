@@ -2,14 +2,37 @@
   //background: unset;
   box-shadow: unset;
   user-select: none;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
   padding: 0;
   color: #333;
+  width: auto;
+  height: calc(100% - 0px);
+  display: flex;
+  flex-direction: column;
 
   .homeContent {
     width: 100%;
+
+    .headerTop {
+      padding: 0;
+      margin: 40px 0 40px 0;
+      height: 240px;
+      text-align: center;
+
+      .box-item {
+        height: 200px;
+
+        .box-img {
+          display: inline-block;
+        }
+
+      }
+
+      .box-item h1 {
+        text-align: center;
+      }
+
+    }
+
   }
 
   .homeFooter {
@@ -18,7 +41,6 @@
     .echartsBlock {
       width: 50%;
     }
-
-
   }
+
 }
