@@ -18,15 +18,15 @@ module.exports = merge(baseConfig, {
         // https: true,
         proxy: {
             "/api": {
-                target: "http://701603cc.r6.cpolar.top",
+                target: "http://172.16.180.199:8124",
                 changeOrigin: true,
                 pathRewrite: {
                     '^/api': '/'
                 },
             },
             "/services/v1": {
-                target: "http://701603cc.r6.cpolar.top",
-                // target: "http://172.16.180.199:8124",
+                // target: "http://701603cc.r6.cpolar.top",
+                target: "http://172.16.180.199:8124",
                 changeOrigin: true,
                 pathRewrite: {
                     '^/services/v1': '/v1'

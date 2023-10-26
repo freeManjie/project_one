@@ -1,6 +1,7 @@
 const path = require('path')
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const OptimizeCssAssetsWebpackPlugin = require('optimize-css-assets-webpack-plugin');
 module.exports = {
     // 入口文件
     entry: "./src/index.js",
@@ -96,6 +97,11 @@ module.exports = {
                 ],
             },
         ],
+    },
+    optimization: {
+        minimizer: [
+            new OptimizeCssAssetsWebpackPlugin()
+        ]
     },
     // 配置相应的插件
     plugins: [
