@@ -1,16 +1,14 @@
-.common-content.homePreview {
-  //background: unset;
-  box-shadow: unset;
-  user-select: none;
-  padding: 0;
+.homePreview {
+  width: 100%;
+  height: calc(100% - 20px);
   color: #333;
-  width: auto;
-  height: calc(100% - 0px);
   display: flex;
   flex-direction: column;
 
   .homeContent {
     width: 100%;
+    background: #ffffff;
+    position: relative;
 
     .headerTop {
       padding: 0;
@@ -41,6 +39,7 @@
     .echartsBlock {
       width: 50%;
     }
+
   }
 
 }

@@ -8,21 +8,37 @@ import user from "../../../assets/images/backHome/roleManage.png"
 import chart from "../../../assets/images/backHome/chart.png"
 import form from "../../../assets/images/backHome/form.png"
 
+function compare(property) {//对新的数据进行排序
+    return function (a, b) {
+        const value1 = a[property]
+        const value2 = b[property]
+        return value1 - value2
+    }
+}
+
+const randomColors = () => {//十六进制颜色随机
+    const r = Math.floor(Math.random()*256)
+    const g = Math.floor(Math.random()*256)
+    const b = Math.floor(Math.random()*256)
+    const color = `#${r.toString(16)}${g.toString(16)}${b.toString(16)}`
+    return color
+}
+
 export const BackHome = () => {
     const [list, setList] = useState([])
 
     useEffect(() => {
-        getRequestData(`services/v1/auth/adminList`).then(res =>{
-            if(res.data) {
-                setList(res.data)
-            }
-        })
+        // getRequestData(`services/v1/auth/adminList`).then(res =>{
+        //     if(res.data) {
+        //         setList(res.data)
+        //     }
+        // })
     }, [])
 
     const echartsBlock = () => {
         let xData = []
         let yData = []
-        list?.map((item) => {
+        list.sort(compare('date'))?.map((item) => {
             xData.push(item.date)
             yData.push(item.count)
         })
@@ -31,33 +47,44 @@ export const BackHome = () => {
             title: {
                 text: '注册人数',
                 // subtext: '纯属虚构',
-                left: 'center'
+                left: 'center',
+                textStyle: {
+                    color: '#333'
+                }
             },
             xAxis: {
                 type: 'category',
-                data: xData,
+                data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                nameTextStyle: {
+                    align: 'center',
+                }
             },
             yAxis: {
                 type: 'value',
+                show: true,
+            },
+            tooltip: {
+                trigger: "axis",
             },
             series: [
                 {
-                    data: yData,
+                    data: [120, 200, 150, 80, 70, 110, 130],//yData,
                     type: 'bar',
                     showBackground: true,
                     backgroundStyle: {
                         color: 'rgba(180, 180, 180, 0.2)'
-                    }
+                    },
+                    color: randomColors()
                 }
             ]
         }
         return <div>
-            <Echarts option={option}/>
+            <Echarts option={option} style={{ width: '40vw', height: '400px' }}/>
         </div>
     }
 
     return (
-        <div className={'common-content homePreview'}>
+        <div className={'homePreview'}>
             <div className={'homeContent'}>
                 <div className={'headerTop'}>
                     <Row gutter={24}>
