@@ -1,2 +1,1 @@
-autofit.js 可视化大屏
-js-cookie 
+用于添加项目demo 
