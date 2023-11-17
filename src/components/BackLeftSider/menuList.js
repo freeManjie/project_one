@@ -37,8 +37,8 @@ const projectMenus = [
         icon: <img src={ order } alt="" style={{ height: '50%' }} />,
     },
     // {
-    //     label: '资金明细',
-    //     key: '/project/fundDetails',
+    //     label: '图谱',
+    //     key: '/project/relationCharts',
     //     icon: <img src={ order } alt="" style={{ height: '50%' }} />,
     // },
     {
