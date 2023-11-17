@@ -16,7 +16,7 @@ module.exports = merge(baseConfig, {
         // host: "172.16.180.166",//"192.168.1.3"
         port: "8099",
         // https: true,
-        hot: true,
+        // hot: true,
         proxy: {
             "/api": {
                 target: "http://172.16.180.199:8124",

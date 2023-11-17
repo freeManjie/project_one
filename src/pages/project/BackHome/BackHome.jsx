@@ -7,6 +7,7 @@ import dimension from "../../../assets/images/backHome/dimension.png"
 import user from "../../../assets/images/backHome/roleManage.png"
 import chart from "../../../assets/images/backHome/chart.png"
 import form from "../../../assets/images/backHome/form.png"
+import {randomColors} from "../../../utils/utils";
 
 function compare(property) {//对新的数据进行排序
     return function (a, b) {
@@ -14,14 +15,6 @@ function compare(property) {//对新的数据进行排序
         const value2 = b[property]
         return value1 - value2
     }
-}
-
-const randomColors = () => {//十六进制颜色随机
-    const r = Math.floor(Math.random()*256)
-    const g = Math.floor(Math.random()*256)
-    const b = Math.floor(Math.random()*256)
-    const color = `#${r.toString(16)}${g.toString(16)}${b.toString(16)}`
-    return color
 }
 
 export const BackHome = () => {
@@ -124,9 +117,6 @@ export const BackHome = () => {
                 <div className={'box-echarts'}>
                     {echartsBlock()}
                 </div>
-                {/*<div className={'box-echarts'}>*/}
-                {/*    {echartsBlock()}*/}
-                {/*</div>*/}
             </div>
         </div>
     )
