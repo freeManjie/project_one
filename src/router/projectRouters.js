@@ -3,7 +3,6 @@ import User from '../pages/project/User/User.jsx'
 import ProjectManage from "../pages/project/ProjectManage";
 import OrderList from '../pages/project/Order'
 import ConsumptionRecords from "../pages/project/ConsumptionRecords";
-import RelationCharts from "../pages/project/RelationCharts/RelationCharts.jsx";
 
 const redirectPath = "/login"
 
@@ -31,11 +30,6 @@ const projectRouters = [
     {
         path: "/project/consumptionRecords",//消费记录
         component: ConsumptionRecords,
-        redirectPath: redirectPath,
-    },
-    {
-        path: "/project/relationCharts",//消费记录
-        component: RelationCharts,
         redirectPath: redirectPath,
     },
 ]

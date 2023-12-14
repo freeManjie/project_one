@@ -1,6 +1,7 @@
 :root {
   --theme-dpbg: #0b2548;
 }
+$primary-color: #252525;
 
 /*分辨率低于1280，采用下面的样式*/
 @media screen and (max-width: 1280px) {
@@ -45,6 +46,16 @@
     font-size: 14px !important;
   }
 
+}
+
+.ellipsis {
+  display: -webkit-box;
+  overflow: hidden;
+  white-space: normal;
+  text-overflow: ellipsis;
+  word-wrap: break-word;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
 }
 
 .pointer {
@@ -116,4 +127,105 @@
   color: #10a693;
   font-weight: normal;
   cursor: pointer;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+::-webkit-scrollbar {
+  height: 10px;
+  width: 10px;
+  // background: url("../../assets/images/bg-line-1px.jpg") repeat-y center center;
+}
+
+//滑槽
+::-webkit-scrollbar:hover {
+  // background: #f5f5f5;
+  border-radius: 10px;
+}
+
+//滑块
+::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border: 3px solid transparent;
+  border-radius: 10px;
+  background-clip: padding-box;
+  cursor: pointer;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  // background: #000;
+  border: 3px solid transparent;
+  // border: 0;
+  // width: 10px;
+  // background:#e0e0e0;
+  background: #c1c1c1;
+  // box-shadow: 0px 0px 3px 1px rgba(0,0,0,0.3);
+}
+
+// 自定义表格表头、多选框样式
+.ant-table-thead tr th {
+  //color: #929db2 !important;
+  //background: #f1f4fa !important;
+  color: #fff !important;
+  background: #252525 !important;
+}
+
+.ant-table-tbody tr:nth-child(odd) {
+  background: #f2f2f28a;
+}
+
+.ant-table-tbody tr:nth-child(even) {
+  background: #FFF;
+}
+
+//button自定义按钮样式
+.ant-btn.ant-btn-dashed,
+.ant-btn.ant-btn-default {
+  position: relative;
+  background-color: #252525;
+  cursor: pointer;
+  border: 1px solid #252525;
+  overflow: hidden;
+  border-radius: 30px;
+  color: #fff;
+}
+
+.ant-btn.ant-btn-dashed:active,
+.ant-btn.ant-btn-dashed:hover,
+.ant-btn.ant-btn-default:active,
+.ant-btn.ant-btn-default:hover,
+.ant-btn.ant-btn-default:focus {
+  color: #fff;
+  border: none;
+  background: #0b2548;
+}
+
+.ant-btn.ant-btn-primary {
+  position: relative;
+  background-color: transparent;
+  cursor: pointer;
+  border: 1px solid #252525;
+  overflow: hidden;
+  border-radius: 30px;
+  color: #333;
+}
+
+.ant-btn.ant-btn-primary:active,
+.ant-btn.ant-btn-primary:focus,
+.ant-btn.ant-btn-primary:hover {
+  //box-shadow: 1px 1px 200px #252525;
+  color: #fff;
+  border: none;
+  background: #252525;
+}
+
+//自定义弹窗modal
+.ant-modal-header {
+  color: #fff !important;
+  background: #252525 !important;
+}
+.ant-modal-title {
+  color: #fff !important;
 }

@@ -2,6 +2,7 @@ import { randomColors } from "@utils/utils"
 import React, { useEffect, useRef } from "react"
 import RelationGraph from "relation-graph/react"
 import "./index.scss"
+import { Checkbox } from "antd"
 
 const staticJsonData = {
     rootId: "2",
@@ -121,19 +122,26 @@ const RelationRight = (props) => {
     }
 
     const options = {
-        toolBarVersion: 'v2',
+        zoomToFitWhenRefresh: false,
         defaultNodeBorderWidth: 0,
-        // defaultNodeColor: "rgba(238, 178, 94, 1)",
-        defaultNodeColor: randomColors(),
-        defaultNodeBorderWidth: 0,
+        defaultNodeColor: "rgba(238, 178, 94, 1)",
         allowSwitchLineShape: true,
         allowSwitchJunctionPoint: true,
         debug: false,
         showDebugPanel: false,
         defaultLineShape: 1,
+        useAnimationWhenRefresh: true,
+        defaultLineMarker: {
+            markerWidth: 12,
+            markerHeight: 12,
+            refX: 10,
+            refY: 6,
+            data: "M2,2 L10,6 L2,10 L6,6 L2,2"
+        },
+        allowAutoLayoutIfSupport: true,
         layouts: [
             {
-                label: "自动布局",
+                label: "中心",
                 layoutName: "force",
                 layoutClassName: "seeks-layout-force",
             }
@@ -183,14 +191,50 @@ const RelationRight = (props) => {
 
     //点击线
     const onLineClick = (line, _link, _e) => {
-        console.log("onLineClick:", line.text, line.from, line.to)
+        console.log(
+            "onLineClick:",
+            line.text,
+            line.from,
+            line.to,
+            line,
+            _link,
+            _e
+        )
     }
 
     //点击画布
     const onCanvasClick = (event) => {
-        // console.log(graphRef);
-        // const graphInstance = graphRef.current.getInstance();
-        // graphInstance.clearChecked();
+        // console.log(graphRef)
+        // const graphInstance = graphRef.current.getInstance()
+        // graphInstance.clearChecked()
+    }
+
+    const graphPlug = ({ relationGraph }) => {
+        return (
+            <div
+                slot="graph-plug"
+                style={{
+                    top: 0,
+                    left: 10,
+                    position: "absolute",
+                    color: "#ffffff",
+                    fontSize: "15px",
+                    // width: "600px",
+                    // border: "#efefef solid 1px",
+                    zIndex: 22
+                }}
+            >
+                <Checkbox>人物关系</Checkbox>
+                <br />
+                <Checkbox>组织关系</Checkbox>
+            </div>
+        )
+    }
+
+    const toolBarSlot = () => {
+        return <div>
+            <span>123</span>
+        </div>
     }
 
     return (
@@ -204,7 +248,9 @@ const RelationRight = (props) => {
                 nodeSlot={NodeSlot}
                 onNodeClick={onNodeClick}
                 onLineClick={onLineClick}
+                graphPlugSlot={graphPlug}
                 onCanvasClick={onCanvasClick}
+                toolBarSlot={toolBarSlot}
             ></RelationGraph>
         </div>
     )

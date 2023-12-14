@@ -36,11 +36,6 @@ const projectMenus = [
         key: '/project/consumptionRecords',
         icon: <img src={ order } alt="" style={{ height: '50%' }} />,
     },
-    // {
-    //     label: '图谱',
-    //     key: '/project/relationCharts',
-    //     icon: <img src={ order } alt="" style={{ height: '50%' }} />,
-    // },
     {
         label: '用户列表',
         key: '/project/user',

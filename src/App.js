@@ -5,6 +5,18 @@ import "./App.scss"
 import "./assets/styles/iconfont.css"
 import Login from "./pages/Login";
 import ProjectBackLayout from "./layOuts/Project/ProjectBackLayout";
+import axios from "axios";
+
+let loadingCount = 0;
+let tokenCount = 0;
+let dom = document.querySelector('#loading');
+const showLoading = () => {
+    dom.setAttribute('class', 'global-loading');
+}
+
+const hideLoading = () => {
+    dom.setAttribute('class', 'loading-hide');
+}
 
 function App() {
 

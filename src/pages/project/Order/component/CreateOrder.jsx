@@ -62,8 +62,7 @@ const CreateOrder = (props) => {
                 })
             }}
             width={1200}
-            centered
-            maskClosable={false}>
+            centered>
                 <Form form={orderForm} {...layout}>
                     <Row>
                         <Col span={12}>
