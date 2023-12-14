@@ -113,11 +113,11 @@ export const BackHome = () => {
                 </Divider>
             </div>
 
-            <div className={'homeFooter'}>
-                <div className={'box-echarts'}>
-                    {echartsBlock()}
-                </div>
-            </div>
+            {/*<div className={'homeFooter'}>*/}
+            {/*    <div className={'box-echarts'}>*/}
+            {/*        {echartsBlock()}*/}
+            {/*    </div>*/}
+            {/*</div>*/}
         </div>
     )
 }
