@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { Layout, Col, Row, Breadcrumb } from "antd";
 import NoteHeader from "../ProjectBackHeader";
-import LeftSider from "../../../components/BackLeftSider";
+import LeftSider from "@components/BackLeftSider";
 import { Menu, Dropdown, Image, Badge, Avatar, message } from "antd";
 import { FullscreenOutlined, FullscreenExitOutlined, MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons";
 import './index.scss'
 import { useLocation, Route, Switch } from "react-router-dom";
-import { projectMenus } from "../../../components/BackLeftSider/menuList.js";
+import { projectMenus } from "@components/BackLeftSider/menuList.js";
 import MyBreadcrumb from './MyBreadcrumb.jsx'
 import projectRouters from "../../../router/projectRouters.js";
+import logo from "../../../assets/icons/logo.png"
 
 const { Header, Sider, Content } = Layout;
 
@@ -55,6 +56,7 @@ function ProjectBackLayout() {
                 >
                     <div className="projectLogo">
                         <div className="projectLogoImg">
+                            <Image src={logo} preview={false}/>
                             <div style={{ fontWeight: 700, color: '#03a9f4', fontSize: 24 }}>AiForu</div>
                         </div>
                     </div>

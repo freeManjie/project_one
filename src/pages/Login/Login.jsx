@@ -168,7 +168,7 @@ export const Login = () => {
                 <div className={'login-content'}>
                     <LoginFormPage
                         onFinish={ submitLogin }
-                        backgroundImageUrl="https://mdn.alipayobjects.com/huamei_gcee1x/afts/img/A*y0ZTS6WLwvgAAAAAAAAAAAAADml6AQ/fmt.webp"
+                        // backgroundImageUrl="https://mdn.alipayobjects.com/huamei_gcee1x/afts/img/A*y0ZTS6WLwvgAAAAAAAAAAAAADml6AQ/fmt.webp"
                         logo="https://github.githubassets.com/images/modules/logos_page/Octocat.png"
                         title="欢迎使用"
                         containerstyle={{

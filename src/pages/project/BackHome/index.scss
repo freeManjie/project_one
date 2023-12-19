@@ -1,46 +1,22 @@
-.homePreview {
+.home-container {
   width: 100%;
   height: calc(100% - 20px);
   color: #333;
-  display: flex;
-  flex-direction: column;
   position: relative;
 
-  .homeContent {
+  .container-up {
+    height: 50%;
     width: 100%;
-    background: #ffffff;
-    position: relative;
-
-    .headerTop {
-      padding: 0;
-      margin: 40px 0 40px 0;
-      height: 240px;
-      text-align: center;
-
-      .box-item {
-        height: 200px;
-
-        .box-img {
-          display: inline-block;
-        }
-
-      }
-
-      .box-item h1 {
-        text-align: center;
-      }
-
-    }
-
+    display: grid;
+    grid-template-columns: repeat(3, 33.33%);
+    grid-template-rows: repeat(3, 33.33%);
   }
 
-  .homeFooter {
+  .container-down {
+    height: calc(50% - 20px);
     width: 100%;
-
-    .echartsBlock {
-      width: 50%;
-    }
-
+    display: grid;
+    grid-template-columns: repeat(3, 33.33%);
+    grid-template-rows: repeat(3, 33.33%);
   }
-
 }

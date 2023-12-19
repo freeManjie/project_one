@@ -1,17 +1,29 @@
 import React, {useEffect, useState} from "react";
-import {Form, Input, Modal, Row, Select, Col, message} from "antd";
-import {postRequestData} from "../../../../services/server";
+import {Form, Input, Modal, Row, Select, Col, message, Card, Checkbox, Descriptions} from "antd";
+import {postRequestData} from "@server/server";
+import "./index.scss"
 
 const layout = {
     labelCol: { span: 4 },
     wrapperCol: { span: 20 },
 }
-
 const { TextArea } = Input
+
+const orderConfigOptions = [
+    {
+        label: '提交后不立即运行',
+        value: '1',
+    },
+    {
+        label: '完成或异常时推送消息',
+        value: '2',
+    },
+]
 const CreateOrder = (props) => {
     const { showModal, setShowModal } = props
     const [orderForm] = Form.useForm()
     const [projectList, setProjectList] = useState([])
+    const [checkValues, setCheckValues] = useState([])
 
     useEffect(() => {
         if(showModal) {
@@ -50,11 +62,23 @@ const CreateOrder = (props) => {
         })
     }
 
+    const selectCurse = (item) => {
+        console.info(item)
+    }
+
+    const saveConfig = () =>{
+
+    }
+
+    const checkoutChange = (checkValue) =>{
+        setCheckValues(checkValue)
+    }
+
     return (
         <>
             <Modal
             title={'添加订单'}
-            visible={showModal}
+            open={showModal}
             onCancel={closeModal}
             onOk={() => {
                 orderForm.validateFields().then(values => {
@@ -63,33 +87,48 @@ const CreateOrder = (props) => {
             }}
             width={1200}
             centered>
-                <Form form={orderForm} {...layout}>
-                    <Row>
-                        <Col span={12}>
+                <Row>
+                    <Col span={12}>
+                        <Form form={orderForm} {...layout}>
                             <Form.Item label={'课程名称'} name={'id'}>
-                                <Select>
+                                <Select onSelect={ selectCurse }>
                                     {projectList?.map(item => <Option key={item.id} value={item.id}>
                                         {item.name}
                                     </Option>)}
                                 </Select>
                             </Form.Item>
                             <Form.Item label={'账号'} name={'buy_username'}>
-                                <Input style={{}}/>
+                                <Input style={{}} allowClear/>
                             </Form.Item>
                             <Form.Item label={'密码'} name={'buy_password'}>
-                                <Input style={{}}/>
+                                <Input style={{}} allowClear/>
                             </Form.Item>
                             {<Form.Item label={'课程备注'} name={'course_remark'}>
-                                <TextArea rows={4}/>
+                                <TextArea rows={4} allowClear/>
                             </Form.Item>}
                             {<Form.Item label={'其他备注'} name={'remark'}>
-                                <TextArea/>
+                                <TextArea rows={2} allowClear/>
                             </Form.Item>}
-                        </Col>
-                        <Col span={12}></Col>
-                    </Row>
-
-                </Form>
+                        </Form>
+                    </Col>
+                    <Col span={12}>
+                        <div className={"config-wrap"}>
+                            <div className={"config-check"}>
+                                <Card title={"配置项目"} extra={<a onClick={ saveConfig }>保存配置</a>}>
+                                    <Checkbox.Group options={ orderConfigOptions } onChange={ checkoutChange } />
+                                </Card>
+                            </div>
+                            <div className={"config-des"}>
+                                <Descriptions bordered column={1}>
+                                    <Descriptions.Item label={"备注方式"} contentStyle={{ color: 'orange' }}>{}</Descriptions.Item>
+                                    <Descriptions.Item label={"单价"} contentStyle={{ color: '' }}>{}</Descriptions.Item>
+                                    <Descriptions.Item label={"地址"} contentStyle={{ color: '' }}>{}</Descriptions.Item>
+                                    <Descriptions.Item label={"视频/考试"}>{}</Descriptions.Item>
+                                </Descriptions>
+                            </div>
+                        </div>
+                    </Col>
+                </Row>
             </Modal>
         </>
     )

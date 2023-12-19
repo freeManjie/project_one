@@ -1,0 +1,19 @@
+.config-wrap {
+  margin-left: 15px;
+
+  .config-check {
+    .ant-checkbox-group {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+
+  .config-des {
+    margin-top: 10px;
+    .ant-descriptions-bordered .ant-descriptions-item-label {
+      background-color: #fafafa;
+      width: 120px;
+      color: #03a9f4;
+    }
+  }
+}
