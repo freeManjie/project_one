@@ -51,7 +51,7 @@ const EditUser = (props) => {
     return (
         <Modal
         title={modalTitle}
-        visible={showModal}
+        open={showModal}
         onCancel={() => {
             setShowModal(false)
         }}

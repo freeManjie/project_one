@@ -36,62 +36,113 @@ const instance = axios.create({
     },
 });
 
-axios.interceptors.response.use(response => {
-    return response
-}, error => {
-    let status = 0, msg = '', response = error.response;
-    if (error && response) {
-        status = response.status;
-        msg = response.data.title;
-    }
-    // 当response.data.re为401, 则判断token已经过期
-    if (status === 401) {
-        console.log(response)
-        const config = response.config
-        if (!isRefreshing) {
-            // isRefreshing = true
-            // return axios.post(`/api/refreshToken?refreshToken=${localStorage.getItem('AIO_Refresh_Token')}`)
-            //     .then(res => {
-            //         const { access_token, refresh_token } = res.data.data
-            //         setToken(access_token, getLoginUser(), refresh_token)
-            //         // 已经刷新了token，将所有队列中的请求进行重试
-            //         requests.forEach(cb => cb(access_token))
-            //         requests = []
-            //     }).catch(res => {
-            //         // 刷新token报错的话, 就需要跳转到登录页面
-            //         console.error('refreshtoken error =>', res)
-            //         message.error("token过期,请重新登录!");
-            //         setTimeout(() => { window.location.href = '/' }, 2000)
-            //         logout();
-            //     }).finally(() => {
-            //         isRefreshing = false
-            //     })
-        } else {
+
+instance.interceptors.request.use(
+    (config) => {
+        const token = getToken();
+        if (token) {
+            // 判断是否存在token，如果存在的话，则每个http header都加上token
+            config.headers.Authorization = `Bearer ${token}`;
+        }
+
+        return config;
+    },
+    (error) => Promise.reject(error),
+);
+
+instance.interceptors.response.use(
+    (response) => {
+        if (response.data.code == 400) {
+            message.error(response.data.msg);
+            return Promise.reject(response);
+        }
+        // 在响应之前对数据进行处理
+        if (response.data) {
+            response.data = formatDataFields(response.data);
+        }
+        return response;
+    },
+
+    (error) => {
+        const { response } = error;
+        const { status, data: { title } = {} } = response || {};
+
+        if (status === 401) {
+            const originalRequest = error.config;
+
             // 正在刷新token，将返回一个未执行resolve的promise
             return new Promise((resolve) => {
                 // 将resolve放进队列，用一个函数形式来保存，等token刷新后直接执行
                 requests.push((token) => {
-                    config.baseURL = ''
-                    config.headers['Authorization'] = `Bearer ${token}`
-                    resolve(instance(config))
-                })
-            })
+                    originalRequest.headers.Authorization = `Bearer ${token}`;
+                    resolve(instance(originalRequest));
+                });
+            });
+        }
+
+        switch (status) {
+            case 403:
+                message.warning({ content: '无权限访问!' });
+                break;
+            case 400:
+                message.error({ content: title });
+                break;
+            case 404:
+                message.error({ content: '数据正在加载，请稍后再试!' });
+                break;
+            case 500:
+                message.error({ content: '数据请求异常，请联系管理员！' });
+            case 502:
+                message.error({ content: '数据请求异常，请联系管理员！' });
+                break;
+            default:
+                break;
+        }
+        return Promise.reject(error);
+    },
+);
+
+/**
+ *
+ * @param {any} data 待格式化的数据
+ */
+function formatDataFields(data) {
+    if (Array.isArray(data)) {
+        // 处理数组
+        data.forEach((item, index) => {
+            data[index] = formatDataFields(item);
+        });
+    } else if (data && typeof data === 'object') {
+        // 处理对象
+        for (let key in data) {
+            const value = data[key];
+            data[key] = formatDataFields(value);
+            if (typeof data[key] === 'string') {
+                // 格式化时间类型
+                const match = data[key].match(/^\d{4}[/-]\d{1,2}[/-]\d{1,2}[ T]\d{1,2}:\d{2}:\d{2}$/);
+                if (match) {
+                    const date = new Date(data[key]);
+                    const year = date.getFullYear();
+                    const month = date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1;
+                    const day = date.getDate() < 10 ? `0${date.getDate()}` : date.getDate();
+                    const hours = date.getHours() < 10 ? `0${date.getHours()}` : date.getHours();
+                    const minutes = date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes();
+                    const seconds = date.getSeconds() < 10 ? `0${date.getSeconds()}` : date.getSeconds();
+                    data[key] = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+                }
+            } else if (typeof data[key] === 'number' && !Number.isInteger(data[key])) {
+                // 格式化浮点数类型
+                const num = data[key].toString();
+                const integerPart = num.split('.')[0];
+                let decimalPart = '';
+                if (num.includes('.')) {
+                    decimalPart = num.split('.')[1].substring(0, 2);
+                }
+                data[key] = Number(`${integerPart}.${decimalPart}`);
+            }
         }
     }
-    if (status == 403) {
-        message.warning({ content: "无权限访问!" });
-    }
-    if (status == 500 || status == 502) {
-        message.error({ content: "服务器请求错误！" });
-    }
-    if (status == 400) {
-        message.error({ content: msg });
-    }
-    if (status == 404) {
-        message.error({ content: "404 Not Found！" });
-    }
-    console.log('请求error', error.message);
-    return Promise.reject(error);
-})
 
-export default axios;
+    return data;
+}
+export default instance;

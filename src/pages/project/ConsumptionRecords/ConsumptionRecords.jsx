@@ -18,18 +18,40 @@ const ConsumptionRecords = () => {
 
     const columns = [
         {
-
-        }
+            title: '序号',
+            dataIndex: '',
+            key: '',
+        },
+        {
+            title: '时间',
+            dataIndex: '',
+            key: '',
+        },
+        {
+            title: '消费金额',
+            dataIndex: '',
+            key: '',
+        },
+        {
+            title: '账户余额',
+            dataIndex: '',
+            key: '',
+        },
+        {
+            title: '变动类型',
+            dataIndex: '',
+            key: '',
+        },
+        {
+            title: '备注',
+            dataIndex: '',
+            key: '',
+        },
     ]
 
     const getTableList = async (params, sort, filter) => {
         let tableResult = null
         const requestParams = {
-            username: params.username,
-            state: params.state && Number(params.state),
-            name: params.name,
-            start_date: params.create_at && moment(params.create_at[0]).format(dateFormat),
-            end_date: params.create_at && moment(params.create_at[1]).format(dateFormat),
             pageNo: params.current,
             pageSize: params.pageSize,
         }
@@ -61,11 +83,12 @@ const ConsumptionRecords = () => {
                 actionRef={actionRef}
                 columns={columns}
                 pagination={{ ...pagination, ...pageSize}}
-                search={{
-                    span: 6,
-                    labelWidth: 'auto',
-                    optionRender: (searchConfig, formProps, dom) => [...dom.reverse()]
-                }}
+                // search={{
+                //     span: 6,
+                //     labelWidth: 'auto',
+                //     optionRender: (searchConfig, formProps, dom) => [...dom.reverse()]
+                // }}
+                search={ false }
                 rowSelection={false}
                 request={(params, sort, filter) => getTableList({ ...params }, sort, filter) }
                 // headerTitle={adminHeaderButton}

@@ -35,7 +35,7 @@ const RoleModal = (props) => {
     return (
         <Modal
         title={roleTitle}
-        visible={showModal}
+        open={showModal}
         onCancel={closeModal}
         onOk={() => {
             roleForm.validateFields().then(values => {

@@ -13,7 +13,7 @@ const projectMenus = [
     },
     {
         label: '项目列表',
-        // key: '/project/projectManage',
+        key: '/projectManage',
         icon: <img src={ project } alt="" style={{ height: '50%' }} />,
         children: [
             {

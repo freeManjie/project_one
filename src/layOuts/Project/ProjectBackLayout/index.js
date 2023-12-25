@@ -52,12 +52,12 @@ function ProjectBackLayout() {
             <Layout className="project-layout" style={ { height: "100vh" } }>
                 {/*左边菜单栏区域*/ }
                 <Sider trigger={ null } collapsible collapsed={ collapsed }
-                       style={ { overflow: 'auto', height: '100vh', position: "fixed", left: 0, top: 0, bottom: 0 } }
+                       style={ { overflow: 'auto', height: '100vh', position: "fixed", left: 0, top: 0, bottom: 0, overflowX: 'hidden' } }
                 >
                     <div className="projectLogo">
                         <div className="projectLogoImg">
                             <Image src={logo} preview={false}/>
-                            <div style={{ fontWeight: 700, color: '#03a9f4', fontSize: 24 }}>AiForu</div>
+                            <div style={{fontWeight: 700, color: '#03a9f4', fontSize: 24}}>AiForu</div>
                         </div>
                     </div>
                     <LeftSider></LeftSider>

@@ -3,7 +3,7 @@ import ECharts from 'echarts-for-react'
 import * as echarts from 'echarts'
 
 const Echarts = (props) => {
-    const { option, style, onEvents } = props
+    const { option, style, onEvents } = props.option
     return (
         <ECharts option={option} style={style} onEvents={onEvents}></ECharts>
     )
