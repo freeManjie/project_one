@@ -1,6 +1,6 @@
-import axios from 'axios'
-import { message } from 'antd'
-import { logout, getToken, setToken } from '@utils/login'
+import axios from "axios"
+import { message } from "antd"
+import { logout, getToken, setToken } from "@utils/login"
 
 //设置默认请求超时时间， 并开启跨域请求
 axios.defaults.timeout = 6000
@@ -9,21 +9,21 @@ axios.defaults.withCredentials = true
 axios.interceptors.request.use(
     (config) => {
         // showLoading()
-        let token = getToken();
+        let token = getToken()
         // if (!(config.url.indexOf("refresh") !== -1)) {
-            if (token && !(config.url.indexOf("refresh") !== -1)) {
-                // 判断是否存在token，如果存在的话，则每个http header都加上token
-                config.headers.Authorization = `Bearer ${token}`;
-            }
+        if (token && !(config.url.indexOf("refresh") !== -1)) {
+            // 判断是否存在token，如果存在的话，则每个http header都加上token
+            config.headers.Authorization = `Bearer ${token}`
+        }
         // }
-        return config;
+        return config
     },
     (error) => {
         if (error && error.response) {
         }
-        return Promise.reject(error);
+        return Promise.reject(error)
     }
-);
+)
 
 //是否刷新标志
 let isRefreshing = false
@@ -32,75 +32,72 @@ let requests = []
 
 const instance = axios.create({
     headers: {
-        'Content-Type': 'application/json',
-    },
-});
-
+        "Content-Type": "application/json"
+    }
+})
 
 instance.interceptors.request.use(
     (config) => {
-        const token = getToken();
+        const token = getToken()
         if (token) {
             // 判断是否存在token，如果存在的话，则每个http header都加上token
-            config.headers.Authorization = `Bearer ${token}`;
+            config.headers.Authorization = `Bearer ${token}`
+        } else {
+            // message.error("token不存在， 请重新登录")
+            setTimeout(() => { window.location.href = "/" }, 2000)
         }
 
-        return config;
+        return config
     },
-    (error) => Promise.reject(error),
-);
+    (error) => Promise.reject(error)
+)
 
 instance.interceptors.response.use(
     (response) => {
         if (response.data.code == 400) {
-            message.error(response.data.msg);
-            return Promise.reject(response);
+            message.error(response.data.msg)
+            return Promise.reject(response)
         }
         // 在响应之前对数据进行处理
         if (response.data) {
-            response.data = formatDataFields(response.data);
+            response.data = formatDataFields(response.data)
         }
-        return response;
+        return response
     },
 
     (error) => {
-        const { response } = error;
-        const { status, data: { title } = {} } = response || {};
+        const { response } = error
+        const { status, data: { title } = {} } = response || {}
 
         if (status === 401) {
-            const originalRequest = error.config;
-
-            // 正在刷新token，将返回一个未执行resolve的promise
-            return new Promise((resolve) => {
-                // 将resolve放进队列，用一个函数形式来保存，等token刷新后直接执行
-                requests.push((token) => {
-                    originalRequest.headers.Authorization = `Bearer ${token}`;
-                    resolve(instance(originalRequest));
-                });
-            });
+            message.warning({ content: "登录状态失效，请重新登录！" })
+            // setTimeout(() => {
+            //     window.location.href = "/"
+            // }, 2000)
+            // localStorage.removeItem("accessToken")
         }
 
         switch (status) {
             case 403:
-                message.warning({ content: '无权限访问!' });
-                break;
+                message.warning({ content: "无权限访问!" })
+                break
             case 400:
-                message.error({ content: title });
-                break;
+                message.error({ content: title })
+                break
             case 404:
-                message.error({ content: '数据正在加载，请稍后再试!' });
-                break;
+                message.error({ content: "数据正在加载，请稍后再试!" })
+                break
             case 500:
-                message.error({ content: '数据请求异常，请联系管理员！' });
+                message.error({ content: "数据请求异常，请联系管理员！" })
             case 502:
-                message.error({ content: '数据请求异常，请联系管理员！' });
-                break;
+                message.error({ content: "数据请求异常，请联系管理员！" })
+                break
             default:
-                break;
+                break
         }
-        return Promise.reject(error);
-    },
-);
+        return Promise.reject(error)
+    }
+)
 
 /**
  *
@@ -110,39 +107,61 @@ function formatDataFields(data) {
     if (Array.isArray(data)) {
         // 处理数组
         data.forEach((item, index) => {
-            data[index] = formatDataFields(item);
-        });
-    } else if (data && typeof data === 'object') {
+            data[index] = formatDataFields(item)
+        })
+    } else if (data && typeof data === "object") {
         // 处理对象
         for (let key in data) {
-            const value = data[key];
-            data[key] = formatDataFields(value);
-            if (typeof data[key] === 'string') {
+            const value = data[key]
+            data[key] = formatDataFields(value)
+            if (typeof data[key] === "string") {
                 // 格式化时间类型
-                const match = data[key].match(/^\d{4}[/-]\d{1,2}[/-]\d{1,2}[ T]\d{1,2}:\d{2}:\d{2}$/);
+                const match = data[key].match(
+                    /^\d{4}[/-]\d{1,2}[/-]\d{1,2}[ T]\d{1,2}:\d{2}:\d{2}$/
+                )
                 if (match) {
-                    const date = new Date(data[key]);
-                    const year = date.getFullYear();
-                    const month = date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1;
-                    const day = date.getDate() < 10 ? `0${date.getDate()}` : date.getDate();
-                    const hours = date.getHours() < 10 ? `0${date.getHours()}` : date.getHours();
-                    const minutes = date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes();
-                    const seconds = date.getSeconds() < 10 ? `0${date.getSeconds()}` : date.getSeconds();
-                    data[key] = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+                    const date = new Date(data[key])
+                    const year = date.getFullYear()
+                    const month =
+                        date.getMonth() + 1 < 10
+                            ? `0${date.getMonth() + 1}`
+                            : date.getMonth() + 1
+                    const day =
+                        date.getDate() < 10
+                            ? `0${date.getDate()}`
+                            : date.getDate()
+                    const hours =
+                        date.getHours() < 10
+                            ? `0${date.getHours()}`
+                            : date.getHours()
+                    const minutes =
+                        date.getMinutes() < 10
+                            ? `0${date.getMinutes()}`
+                            : date.getMinutes()
+                    const seconds =
+                        date.getSeconds() < 10
+                            ? `0${date.getSeconds()}`
+                            : date.getSeconds()
+                    data[
+                        key
+                    ] = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`
                 }
-            } else if (typeof data[key] === 'number' && !Number.isInteger(data[key])) {
+            } else if (
+                typeof data[key] === "number" &&
+                !Number.isInteger(data[key])
+            ) {
                 // 格式化浮点数类型
-                const num = data[key].toString();
-                const integerPart = num.split('.')[0];
-                let decimalPart = '';
-                if (num.includes('.')) {
-                    decimalPart = num.split('.')[1].substring(0, 2);
+                const num = data[key].toString()
+                const integerPart = num.split(".")[0]
+                let decimalPart = ""
+                if (num.includes(".")) {
+                    decimalPart = num.split(".")[1].substring(0, 2)
                 }
-                data[key] = Number(`${integerPart}.${decimalPart}`);
+                data[key] = Number(`${integerPart}.${decimalPart}`)
             }
         }
     }
 
-    return data;
+    return data
 }
-export default instance;
+export default instance
