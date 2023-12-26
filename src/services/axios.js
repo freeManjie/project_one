@@ -71,10 +71,8 @@ instance.interceptors.response.use(
 
         if (status === 401) {
             message.warning({ content: "登录状态失效，请重新登录！" })
-            // setTimeout(() => {
-            //     window.location.href = "/"
-            // }, 2000)
-            // localStorage.removeItem("accessToken")
+            setTimeout(() => { window.location.href = "/" }, 2000)
+            localStorage.removeItem("accessToken")
         }
 
         switch (status) {

@@ -1,29 +1,31 @@
 .home-container {
-  //width: 100%;
-  //height: calc(100% - 20px);
-  color: #333;
-  position: relative;
-  display: grid;
-
-  .container-up {
-    height: 30%;
-    width: 100%;
+    //width: 100%;
+    //height: calc(100% - 20px);
+    color: #333;
+    position: relative;
     display: grid;
-    grid-template-columns: repeat(3, 33.33%);
-    grid-template-rows: repeat(3, 33.33%);
-  }
 
-  .container-down {
-    margin-top: 20px;
-    height: calc(70% - 10px);
-    width: 100%;
-    //display: grid;
-    //grid-template-columns: repeat(3, 33.33%);
-    //grid-template-rows: repeat(3, 33.33%);
-  }
+    .container-up {
+        height: 30%;
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(3, 33.33%);
+        grid-template-rows: repeat(3, 33.33%);
+    }
+
+    .container-down {
+        margin-top: 20px;
+        height: calc(70% - 10px);
+        width: 100%;
+        //display: grid;
+        //grid-template-columns: repeat(3, 33.33%);
+        //grid-template-rows: repeat(3, 33.33%);
+    }
+
+
 }
 
 .boe-one {
-  position: absolute;
-  height: 100%;
+    position: absolute;
+    height: 100%;
 }
