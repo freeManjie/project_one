@@ -1,12 +1,12 @@
-import React, { useState, useEffect, useRef } from "react";
-import {LockOutlined, SafetyOutlined, UserOutlined, RedoOutlined } from "@ant-design/icons";
-import { LoginFormPage, ProConfigProvider, ProFormCaptcha, ProForm, ProFormText, ModalForm } from "@ant-design/pro-components";
+import { LockOutlined, SafetyOutlined, UserOutlined } from "@ant-design/icons";
+import { LoginFormPage, ModalForm, ProFormCaptcha, ProFormText } from "@ant-design/pro-components";
 import { Button, Form, message } from "antd";
-import "./Login.scss"
-import axios from 'axios'
-import {useHistory} from "react-router-dom";
-import {setToken, getToken} from "../../utils/login";
-import {isEmpty} from "../../utils/utils";
+import axios from 'axios';
+import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
+import { getToken } from "../../utils/login";
+import { isEmpty } from "../../utils/utils";
+import "./Login.scss";
 
 export const Login = () => {
     const [form] = Form.useForm()

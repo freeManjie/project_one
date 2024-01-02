@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server --max-old-space-size=20480 --open --config webpack.dev.config.js",
-    "build": "webpack --max-old-space-size=20480 --config webpack.product.config.js"
+    "build": "webpack --config webpack.product.config.js"
   },
   "author": "",
   "license": "ISC",
