@@ -11,20 +11,27 @@
 
     .login-content {
         width: 100vw;
-        height: 100vh;
+        // height: 100vh;
         margin: 0 auto;
         display: flex;
         flex-direction: column;
         align-items: center;
 
-        .login-box {
+        .ant-pro-form-login-page {
+            width: 100%;
+            height: 100%;
+        }
 
-            .login-title {}
-
+        .ant-pro-form-login-page {
+            .ant-pro-form-login-page-notice {
+                display: none;
+            }
         }
 
         .ant-pro-form-login-page-container {
             background: rgb(255 255 255 / 10%);
+            margin: 0 auto;
+            border-radius: 20px;
 
             .ant-pro-form-login-page-title {
                 color: #fff;
