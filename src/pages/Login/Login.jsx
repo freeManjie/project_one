@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import {LockOutlined, SafetyOutlined, UserOutlined} from "@ant-design/icons";
+import {LockOutlined, SafetyOutlined, UserOutlined, RedoOutlined } from "@ant-design/icons";
 import { LoginFormPage, ProConfigProvider, ProFormCaptcha, ProForm, ProFormText, ModalForm } from "@ant-design/pro-components";
 import { Button, Form, message } from "antd";
 import "./Login.scss"
@@ -168,13 +168,12 @@ export const Login = () => {
                 <div className={'login-content'}>
                     <LoginFormPage
                         onFinish={ submitLogin }
-                        // backgroundImageUrl="https://mdn.alipayobjects.com/huamei_gcee1x/afts/img/A*y0ZTS6WLwvgAAAAAAAAAAAAADml6AQ/fmt.webp"
                         logo="https://github.githubassets.com/images/modules/logos_page/Octocat.png"
                         title="欢迎使用"
-                        containerstyle={{
-                            backgroundColor: 'rgba(0, 0, 0,0.65)',
-                            backdropFilter: 'blur(4px)',
-                        }}
+                        // containerstyle={{
+                        //     backgroundColor: 'rgba(0, 0, 0,0.65)',
+                        //     backdropFilter: 'blur(4px)',
+                        // }}
                         subTitle="AiForu系统"
                     >
                         <>
@@ -182,9 +181,7 @@ export const Login = () => {
                                 name={'username'}
                                 fieldProps={{
                                     size: 'large',
-                                    prefix: (
-                                        <UserOutlined className={'prefixIcon'} />
-                                    ),
+                                    prefix: (<UserOutlined className={'prefixIcon'} />),
                                 }}
                                 placeholder={'用户名: admin'}
                                 rules={[
@@ -198,9 +195,7 @@ export const Login = () => {
                                 name="password"
                                 fieldProps={{
                                     size: 'large',
-                                    prefix: (
-                                        <LockOutlined className={'prefixIcon'} />
-                                    ),
+                                    prefix: (<LockOutlined className={'prefixIcon'} />),
                                     autoComplete: 'off'
                                 }}
                                 placeholder={'密码: 123456'}
@@ -215,9 +210,7 @@ export const Login = () => {
                                 name="captcha"
                                 fieldProps={{
                                     size: 'large',
-                                    prefix: (
-                                        <SafetyOutlined className={'prefixIcon'} />
-                                    ),
+                                    prefix: (<SafetyOutlined className={'prefixIcon'} />),
                                 }}
                                 captchaProps={{
                                     size: 'large',
@@ -227,7 +220,8 @@ export const Login = () => {
                                     // if (timing) {
                                     //     return `${count} ${'获取验证码'}`;
                                     // }
-                                    return <img src={captcha} style={{width: "80%", borderRadius: 4, height: '120%' }} alt='vercode'/>
+                                    // return captcha ? <img src={captcha} style={{width: "80%", borderRadius: 4, height: '120%' }} alt='请刷新'/> : <RedoOutlined />
+                                    return <img src={captcha} style={{width: "80%", borderRadius: 4, height: '120%' }} alt='请刷新'/>
                                 }}
                                 onGetCaptcha={async () => {
                                     getCaptcha()
