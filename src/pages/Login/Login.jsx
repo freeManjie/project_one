@@ -1,12 +1,12 @@
-import { LockOutlined, SafetyOutlined, UserOutlined } from "@ant-design/icons";
-import { LoginFormPage, ModalForm, ProFormCaptcha, ProFormText } from "@ant-design/pro-components";
-import { Button, Form, message } from "antd";
-import axios from 'axios';
-import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
-import { getToken } from "../../utils/login";
-import { isEmpty } from "../../utils/utils";
-import "./Login.scss";
+import { LockOutlined, SafetyOutlined, UserOutlined } from "@ant-design/icons"
+import { LoginFormPage, ModalForm, ProFormCaptcha, ProFormText } from "@ant-design/pro-components"
+import { Button, Form, message } from "antd"
+import axios from 'axios'
+import React, { useEffect, useState } from "react"
+import { useHistory } from "react-router-dom"
+import { getToken } from "../../utils/login"
+import { isEmpty } from "../../utils/utils"
+import "./Login.scss"
 
 export const Login = () => {
     const [form] = Form.useForm()
@@ -162,16 +162,37 @@ export const Login = () => {
         />
     </ModalForm>
 
+    const reduceBegin = Date.now()
+
+    const pets = ['dog', 'cat', 'dog', 'goldfish', 'cat', 'rabbit', 'cat'];
+
+    const petCount = pets.reduce((tally, pet) => {
+        console.log(tally, pet);
+        tally[pet] = (tally[pet] || 0) + 1;
+        return tally;
+    }, {});
+    const reduceEnd = Date.now()
+    const reducedtimeSpent = (reduceEnd-reduceBegin)/1000 + " s";
+
+    function newFn(){}
+    const a = new newFn()
+    a.girl = "girl"
+
+    console.info('petCount--->',petCount, reducedtimeSpent, a);
+
     return (
-        <>
-            <div className='login-login'>
-                <div className={'login-content'}>
+        <div className='login-login'>
+            <div className={'login-content'}>
                     <LoginFormPage
                         onFinish={ submitLogin }
                         logo="https://github.githubassets.com/images/modules/logos_page/Octocat.png"
                         title="欢 迎 使 用"
-                        subTitle="AiForu  系统"
+                        subTitle="AiForu 系统"
                     >
+                        <span className="line"></span>
+                        <span className="line"></span>
+                        <span className="line"></span>
+                        <span className="line"></span>
                         <>
                             <ProFormText
                                 name={'username'}
@@ -179,7 +200,7 @@ export const Login = () => {
                                     size: 'large',
                                     prefix: (<UserOutlined className={'prefixIcon'} />),
                                 }}
-                                placeholder={'用户名: admin'}
+                                placeholder={'请输入用户名'}
                                 rules={[
                                     {
                                         required: true,
@@ -194,7 +215,7 @@ export const Login = () => {
                                     prefix: (<LockOutlined className={'prefixIcon'} />),
                                     autoComplete: 'off'
                                 }}
-                                placeholder={'密码: 123456'}
+                                placeholder={'请输入密码'}
                                 rules={[
                                     {
                                         required: true,
@@ -208,9 +229,7 @@ export const Login = () => {
                                     size: 'large',
                                     prefix: (<SafetyOutlined className={'prefixIcon'} />),
                                 }}
-                                captchaProps={{
-                                    size: 'large',
-                                }}
+                                captchaProps={{ size: 'large' }}
                                 placeholder={'请输入验证码'}
                                 captchaTextRender={(timing, count) => {
                                     // if (timing) {
@@ -233,8 +252,7 @@ export const Login = () => {
                             { registerModal }
                         </div>
                     </LoginFormPage>
-                </div>
             </div>
-        </>
+        </div>
     )
 }

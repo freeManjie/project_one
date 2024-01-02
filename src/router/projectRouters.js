@@ -9,7 +9,7 @@ const redirectPath = "/login"
 
 const projectRouters = [
     {
-        path: "/login",//首页
+        path: "/login",
         component: Login,
     },
     {
