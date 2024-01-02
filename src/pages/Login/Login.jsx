@@ -165,19 +165,12 @@ export const Login = () => {
     return (
         <>
             <div className='login-login'>
-            <div>
-                        5
-                    </div>
                 <div className={'login-content'}>
                     <LoginFormPage
                         onFinish={ submitLogin }
                         logo="https://github.githubassets.com/images/modules/logos_page/Octocat.png"
-                        title="欢迎使用"
-                        // containerstyle={{
-                        //     backgroundColor: 'rgba(0, 0, 0,0.65)',
-                        //     backdropFilter: 'blur(4px)',
-                        // }}
-                        subTitle="AiForu系统"
+                        title="欢 迎 使 用"
+                        subTitle="AiForu  系统"
                     >
                         <>
                             <ProFormText
