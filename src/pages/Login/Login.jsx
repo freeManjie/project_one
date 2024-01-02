@@ -162,24 +162,6 @@ export const Login = () => {
         />
     </ModalForm>
 
-    const reduceBegin = Date.now()
-
-    const pets = ['dog', 'cat', 'dog', 'goldfish', 'cat', 'rabbit', 'cat'];
-
-    const petCount = pets.reduce((tally, pet) => {
-        console.log(tally, pet);
-        tally[pet] = (tally[pet] || 0) + 1;
-        return tally;
-    }, {});
-    const reduceEnd = Date.now()
-    const reducedtimeSpent = (reduceEnd-reduceBegin)/1000 + " s";
-
-    function newFn(){}
-    const a = new newFn()
-    a.girl = "girl"
-
-    console.info('petCount--->',petCount, reducedtimeSpent, a);
-
     return (
         <div className='login-login'>
             <div className={'login-content'}>
