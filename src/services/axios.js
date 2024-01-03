@@ -54,6 +54,7 @@ instance.interceptors.request.use(
 
 instance.interceptors.response.use(
     (response) => {
+        const { code } = response.data
         if (response.data.code == 400) {
             message.error(response.data.msg)
             return Promise.reject(response)
@@ -64,7 +65,6 @@ instance.interceptors.response.use(
         }
         return response
     },
-
     (error) => {
         const { response } = error
         const { status, data: { title } = {} } = response || {}

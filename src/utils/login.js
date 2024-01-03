@@ -1,5 +1,5 @@
 const loginUser = 'User'
-const tokenKey = 'AI_Token';
+const tokenKey = 'accessToken';
 const refreshToken = 'refreshToken'
 export const setToken = (access_token, userName, refresh_token) => {
     localStorage.setItem(tokenKey, access_token);

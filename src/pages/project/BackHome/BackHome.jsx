@@ -31,13 +31,28 @@ export const BackHome = () => {
     }, [])
 
     useEffect(() => {
-/*        const canvas = document.getElementById("canvas-one");
+        const canvas = document.getElementById("canvas-one");
+        const rectCanvas = document.getElementById("rectCanvas")
+        const ctxRect = rectCanvas.getContext("2d")
         const ctx = canvas.getContext("2d");
         // ctx.fillRect(0, 0, canvas.width, canvas.height);
-        ctx.moveTo(10,10);
-        ctx.lineTo(150,50);
-        ctx.lineTo(10,50);
-        ctx.stroke();*/
+        ctx.moveTo(100,100);
+        ctx.lineTo(200,200);
+        ctx.lineTo(100,200);
+        ctx.strokeStyle = "#3AF4DC"
+        ctx.fillStyle = "#1890ff"
+
+        ctx.lineWidth = 3 
+        ctx.lineCap = 'round'
+        ctx.lineJoin = 'round'
+        ctx.setLineDash([15, 5]);
+
+        ctx.fill()
+        ctx.stroke();
+
+        ctxRect.rect(50, 50, 60, 60)
+        ctxRect.fill()
+
     }, [])
 
     const listEcharts = {
@@ -154,7 +169,6 @@ export const BackHome = () => {
                 </BasicWrapper>
                 <BasicWrapper title={"订单统计"} basicStyle={""}>
                     <Echarts option={ orderEcharts }></Echarts>
-                    {/*<canvas id={"canvas-one"} width={"200"} height={"100"} style={{ border: "1px solid #efefef", cursor: "pointer", margin:"0 auto", display: "block" }}></canvas>*/}
                 </BasicWrapper>
                 <BasicWrapper title={"消费概览"} basicStyle={"basic-echarts-wrap"}>
                     <Echarts option={ echartsOne }></Echarts>
@@ -162,6 +176,8 @@ export const BackHome = () => {
             </div>
             <div className={"container-down"}>
                 <BasicWrapper title={"快捷菜单"} basicStyle={""}>
+                    <canvas id={"canvas-one"} width={800} height={400} style={{ border: "1px solid #efefef", cursor: "pointer", margin:"0 auto", display: "block" }}>您的浏览器不支持 Canvas</canvas>
+                    <canvas id={"rectCanvas"} width={400} height={240}>您的浏览器不支持 Canvas</canvas>
                 </BasicWrapper>
             </div>
         </div>
